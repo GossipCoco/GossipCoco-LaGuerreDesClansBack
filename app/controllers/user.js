@@ -2,62 +2,83 @@ const jwt = require('jsonwebtoken');
 const queries = require('../DataLayer/queries')
 const config = require("../config/auth.config.js");
 const model = require('../DataLayer/models')
-const userApi = require('../service/UserApi')
+const userApi = require('../middleware/UserApi.js')
 const User = {};
 
 User.GetAllUsers = (req, res) => {
-    queries.GetAllUsers()
-        .then(w => {
-            res.send({ob: w, res: true}).status(200)
-        })
-        .catch(err => {
-            console.log(err)
-            res.send(err).status(500)
-        })
+  queries.GetAllUsers()
+    .then(w => {
+      console.log('w.User', w)
+      res.send({ ob: w, res: true }).status(200)
+    })
+    .catch(err => {
+      console.log(err)
+      res.send(err).status(500)
+    })
 }
 User.GetUserById = (req, res) => {
-    const id = req.params.id;
-    queries.GetUserById(id)
+  const id = req.params.id;
+  queries.GetUserById(id)
     .then(w => {
-        res.send({ob: w, res: true}).status(200)
+      res.send({ ob: w, res: true }).status(200)
     })
     .catch(err => {
-        console.log(err)
-        res.send(err).status(500)
+      console.log(err)
+      res.send(err).status(500)
     })
 }
-User.Login = (req, res, next) => {
-    console.log(req.body);
-    userApi.SetJWT(req.body)
+User.UpdateUserInformations = (req, res) => {
+  queries.UpdateUserInformations(req.params.id, req.body)
     .then(w => {
-        console.log(w)
-        res.send({ob: w, res: true}).status(200)
+      res.send({ ob: w, res: true }).status(200)
     })
     .catch(err => {
-        console.log(err)
-        res.send(err).status(500)
+      console.log(err)
+      res.send(err).status(500)
     })
-    // model.User
-    // .findOne({ where: { Login: req.body.Login } })
-    // .then(user => {
-    //     if(user === null) {
-    //         res.send({ error: 'Utilisateur non trouvé', res: false }).status(401)
-    //     }else{
-    //         try {
-    //             if(req.body.Password === user.Password){
-    //                 const sendingToken = { Id: user.Id, token: jwt.sign({ Id: user.Id }, config.secret , { expiresIn: '48h' }) };
-    //                 console.log(sendingToken)
-    //                 res.send(sendingToken).status(200);
-    //             }
-    //             else
-    //                 res.send({ error: 'Mot de passe incorrect', res: false }).status(401);
-    //         }
-    //         catch (error) {
-    //             console.log(error);
-    //             res.send({ error, pathTo: 'logout', res: false }).status(401);
-    //         }
-    //     }
-    // })
-    // .catch(err => res.send({ error: err, pathTo: 'logout', res: false }).status(500));
 }
+User.Login = (req, res) => {
+  // console.log('req body', req.body)
+  const { Email, password } = req.body;
+  console.log(req.body)
+  const Pwd = req.body.Password
+  queries.GetUserByEmail(Email)
+    .then(user => {
+      console.log(user)
+      // console.log("user controller", user.Password)
+      console.log("user controller", req.body.Password)
+      if (!user) {
+        return res.status(404).send({ message: 'User Not Found.' });
+      }
+      if (user.Password !== req.body.Password) {
+        return res.status(401).send({ message: 'Invalid Password!' });
+      }
+      const result = {
+        usrID: user.Id,
+        Email: user.Email,
+        isSuccess: true,
+        tocken: null,
+        expire: config.JWT.expire
+      }
+      const token = jwt.sign({ id: user.Id }, config.secret, {
+        expiresIn: 86400 // 24 hours
+      });
+      result.tocken = token
+      queries.UpdateLastDateConnection(user.Id, user.Email)
+      .then(response => {
+        console.log(response)
+        res.status(200).send(result);
+      })
+      .catch(err => {
+        console.log(err);
+        res.status(500).send(err);
+      });
+      
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).send(err);
+    });
+};
+8338
 module.exports = User

@@ -5,8 +5,12 @@ const Character = require('../controllers/character')
 const router = express.Router()
 
 router
-.get('/', Character.GetAllCharacters)
+.post('/allcharacters', Character.GetAllCharacters)
+.post('/GetAllCharactersDashboard', Character.GetAllCharactersDashboard)
+.get('/countAllcharacters', Character.countAllCharacters)
+.get('/GetAllNamesAndIdsCharacters', Character.GetAllNamesAndIdsCharacters)
 .get('/:id', Character.GetCharacterByName)
+.get('/GetAllCharactersByUser/:id', Character.GetAllCharactersByUser)
 .get('/search/:name', Character.GetCharacterByNameSearch)
 .post('/createANewCharacter', Character.CreateANewCharacter)
 module.exports = router

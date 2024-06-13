@@ -8,8 +8,19 @@ const SocketIOController = (server, options) => {
     io = SocketIO(server, options)
     io.on("connection", (socket) => {        
         console.log('first connection : ', socket.id)
-        socketId = socket.id        
-        sendMessageWelcome(io, socketId, message)        
+        socketId = socket.id
+        const usr='gossipCoco'
+        sendMessageWelcome(io, socketId, usr, message)  
+        // queries.GetUserById('gossipCoco')
+        // .then(w => {
+        //     res.send({ob: w, res: true}).status(200)
+               
+        // })
+        // .catch(err => {
+        //     console.log(err)
+        //     res.send(err).status(500)
+        // })
+           
     })
     io.on('disconnect', socket => {
         console.log('Disconnect')

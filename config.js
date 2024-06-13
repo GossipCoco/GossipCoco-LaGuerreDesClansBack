@@ -7,7 +7,7 @@ module.exports = {
   host: "localhost",
   user: "sa",
   server: "127.0.0.1",
-  server: "DESKTOP-1P46EIT",
+  server: "COCO_PORTABLE",
   password: "23031983",
   DB: "ProjectlaGuerreDesClans",
   dialect: "mysql",

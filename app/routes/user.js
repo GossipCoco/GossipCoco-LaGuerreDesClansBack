@@ -7,5 +7,6 @@ router
     .get('/', User.GetAllUsers)
     .get('/:id', User.GetUserById)
     .post('/login', User.Login)
+    .post('/updateUserInformation/:id', User.UpdateUserInformations)
 
 module.exports = router;
