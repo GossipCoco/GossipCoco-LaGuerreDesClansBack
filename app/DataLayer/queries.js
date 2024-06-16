@@ -389,9 +389,11 @@ const GetClanById = (id) => {
       },
       {
         model: model.Warrior,
+        attributes:['Name'],
         include: [
           {
             model: model.Character,
+            attributes:['CurrentName', 'Image'],
           },
         ],
       },
@@ -454,6 +456,7 @@ const GetAllGames = (nav) => {
     include: [
       {
         model: model.Fiction,
+        order: [["Title", "ASC"]],
         include: [{
           model: model.Chapter
         }]
@@ -466,7 +469,7 @@ const GetAllGames = (nav) => {
         }]
       }
     ],
-    order: [["Id", "ASC"]],
+    
   });
 };
 
@@ -513,6 +516,7 @@ const GetAllGamesByUser = (user, nav) => {
       },
       {
         model: model.Fiction,
+        order: ['Title'],
         include: [{ model: model.Chapter }],
       },
       {
@@ -617,8 +621,9 @@ const CreateANewGame = (UserId, data, imagePath) => {
   promises.push(firstRequest);
   return firstRequest
     .then(() => {
+      const FictionId = uuidv4()
       const requestNewFiction = {
-        Id: uuidv4(), // Nouvelle clé primaire pour Fiction
+        Id: FictionId, // Nouvelle clé primaire pour Fiction
         Title: data.Title,
         Summary: data.Summary,
         Image: imagePath,  // Use the filename from multer
@@ -644,17 +649,24 @@ const CreateANewGame = (UserId, data, imagePath) => {
         GameId: gameId,
         CharacterId: data.SecondCharacterId
       };
-  
-      const requestLocation = {
-        Id: uuidv4(), // Nouvelle clé primaire pour FictionLocation
-        LocationId: data.LocationId,
-        FictionId: requestNewFiction.Id
-      };
+      const IllustrationRequest = {
+        Id: imagePath,
+        DateCreation: new Date()
+      }
+
+      // const requestLocation = {
+      //   Id: uuidv4(), 
+      //   LocationId: data.LocationId,
+      //   FictionId: requestNewFiction.Id
+      // };
       const secondRequest = model.Fiction.create(requestNewFiction);
       const thirdRequest = model.UsersGame.create(requestUserGame);
       const fourRequest = model.GameCharacter.create(requestFirstGameCharacter)
       const fiveRequest = model.GameCharacter.create(requestSecondGameCharacter)
-      const sixRequest = model.FictionLocation.create(requestLocation)
+      
+      // const sixRequest = model.FictionLocation.create(requestLocation)
+      const sevenRequest = model.Illustration.create(IllustrationRequest)
+      
     
       promises.push(secondRequest);
       return secondRequest
@@ -668,10 +680,27 @@ const CreateANewGame = (UserId, data, imagePath) => {
                   promises.push(fiveRequest)
                   return fiveRequest
                     .then(() => {
-                      promises.push(sixRequest)
-                      return sixRequest
+                      // return Promise.all(promises);
+                      promises.push(sevenRequest)
+                      return sevenRequest
                       .then(() => {
-                        return Promise.all(promises);
+                        const IllustrationFictionRequest = {
+                          Id: uuidv4(), // Nouvelle clé primaire pour GameCharacter
+                          FictionId: FictionId,
+                          IllustrationId: imagePath
+                        }
+                        const eightRequest = model.FictionIllustration(IllustrationFictionRequest)
+                        promises.push(eightRequest)
+                        return eightRequest
+                        .then(() =>
+                           {
+                            return Promise.all(promises);
+                           }
+                        ).catch((err) => {
+                          console.log(err);
+                          return Promise.reject(err);
+                        });
+                        
                       })
                       .catch((err) => {
                         console.log(err);
