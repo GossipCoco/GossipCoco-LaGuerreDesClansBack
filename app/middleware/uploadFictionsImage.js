@@ -5,13 +5,13 @@ const maxSize = 2 * 1920 * 1920;
 let storage = multer.diskStorage({
   destination: (req, file, cb) => {
     const __dirname =
-      "C:\\Users\\gossi\\OneDrive\\Documents\\project\\New-Warrior-game\\front-app-v3\\public";
+      "C:\\Users\\gossi\\OneDrive\\Documents\\project\\Project-Warriors\\front-app-v3\\public";
     console.log("__basedir : ", __dirname);
     cb(null, __dirname + "/images/Fictions/");
   },
   // Gestion des erreurs
   fileFilter(req, file, cb) {
-    if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
+    if (!file.originalname.match(/\.(jpg|jpeg|png|webp)$/)) {
       return cb(new Error("Le fichier doit etre un JPG ou JPEG ou PNG"));
     }
     cb(undefined, true);

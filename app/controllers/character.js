@@ -62,8 +62,14 @@ Character.GetCharacterByNameSearch = (req, res) => {
 }
 
 Character.CreateANewCharacter = (req, res) => {
-    //console.log(req.body)
-    queries.CreateANewCharacter(req.body)
+    console.log(req.body)
+    const data = req.body;
+    const imageFile = req.file;
+    if (imageFile) {
+        data.Image = imageFile.filename;
+    }
+    console.log(data)
+    queries.CreateANewCharacter(data)
         .then(w => {
             res.send({ ob: w, res: true }).status(200)
         })

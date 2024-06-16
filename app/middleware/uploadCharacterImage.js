@@ -5,14 +5,14 @@ const maxSize = 2 * 1920 * 1920;
 let storage = multer.diskStorage({
   destination: (req, file, cb) => {
     const __dirname =
-      "C:\\Users\\gossi\\OneDrive\\Documents\\project\\New-Warrior-game\\front-app-v3\\public";
+      "C:\\Users\\gossi\\OneDrive\\Documents\\project\\Project-Warriors\\front-app-v3\\public\\images\\";
     console.log("__basedir : ", __dirname);
-    cb(null, __dirname + "/images/Characters/");
+    cb(null, __dirname + "Characters/");
   },
   // Gestion des erreurs
   fileFilter(req, file, cb) {
-    if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
-      return cb(new Error("Le fichier doit etre un JPG ou JPEG ou PNG"));
+    if (!file.originalname.match(/\.(jpg|jpeg|png|webp)$/)) {
+      return cb(new Error("Le fichier doit etre un JPG ou JPEG ou PNG ou un Webp"));
     }
     cb(undefined, true);
   },
@@ -22,10 +22,18 @@ let storage = multer.diskStorage({
   },
 });
 
-let uploadFileAvatar = multer({
-  storage: storage,
-  limits: { fileSize: maxSize },
-}).single("file");
+const fileFilter = (req, file, cb) => {
+  if (file.mimetype.startsWith('image')) {
+    cb(null, true);
+  } else {
+    cb(new Error('Not an image! Please upload only images.'), false);
+  }
+};
 
-let uploadFileMiddleware = util.promisify(uploadFileAvatar);
-module.exports = uploadFileMiddleware;
+let uploadImgCharacter = multer({    
+fileFilter: fileFilter,
+storage: storage,
+limits: { fileSize: maxSize },
+})
+
+module.exports = uploadImgCharacter;

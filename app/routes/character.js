@@ -2,7 +2,9 @@ const express = require('express')
 
 const Character = require('../controllers/character')
 
+
 const router = express.Router()
+const uploadFileMiddleware = require('../middleware/uploadCharacterImage')
 
 router
 .post('/allcharacters', Character.GetAllCharacters)
@@ -12,5 +14,5 @@ router
 .get('/:id', Character.GetCharacterByName)
 .get('/GetAllCharactersByUser/:id', Character.GetAllCharactersByUser)
 .get('/search/:name', Character.GetCharacterByNameSearch)
-.post('/createANewCharacter', Character.CreateANewCharacter)
+.post('/createANewCharacter', uploadFileMiddleware.single('image'), Character.CreateANewCharacter)
 module.exports = router
