@@ -29,7 +29,10 @@ const GetAllImagesTable = () => {
       console.log("ERROR: ", err);
     });
 };
-
+/**
+ * 
+ * @returns Object
+ */
 const GetAllUsers = () => {
   console.log("**** All Users ****");
   return model.User.findAll({
@@ -80,18 +83,6 @@ const GetUserByEmail = (email) => {
   console.log("**** User ****", email);
   return model.User.findOne({
     where: { Email: email },
-    // include: [
-    //   {
-    //     model: model.Role,
-    //     include: [
-    //       {
-    //         model: model.RolePermission,
-    //         include: [{ model: model.Permission, }],
-    //       },
-    //     ],
-    //   },
-    //   { model: model.Level },
-    // ],
   });
 };
 const UpdateLastDateConnection = (usr) => {
@@ -617,40 +608,32 @@ const CreateANewGame = (UserId, data, imagePath) => {
   const requestNewGame = {
     Id: gameId,
     DateCreation: date,
-    TypeGameId: 'Fiction'
+    GameTypeId: 'Fiction'
   };
-
+  const FictionId = uuidv4()
+  const requestNewFiction = {
+    Id: FictionId, // Nouvelle clé primaire pour Fiction
+    Title: data.Title,
+    Summary: data.Summary,
+    Image: imagePath,  // Use the filename from multer
+    GameId: gameId,
+    DateCreation: date,
+    UserId: UserId
+  };
   const firstRequest = model.Game.create(requestNewGame);
-  const requestIllustration = {
-    Id: imagePath,
-    DateCreation: new Date()
-  }
   promises.push(firstRequest);
   return firstRequest
     .then(() => {
-      const FictionId = uuidv4()
-      const requestNewFiction = {
-        Id: FictionId, // Nouvelle clé primaire pour Fiction
-        Title: data.Title,
-        Summary: data.Summary,
-        Image: imagePath,  // Use the filename from multer
-        GameId: gameId,
-        DateCreation: date,
-        UserId: UserId
-      };
-
       const requestUserGame = {
         Id: uuidv4(), // Nouvelle clé primaire pour UsersGame
         GameId: gameId,
         UserId: UserId
       };
-
       const requestFirstGameCharacter = {
         Id: uuidv4(), // Nouvelle clé primaire pour GameCharacter
         GameId: gameId,
         CharacterId: data.FirstCharacterId
       };
-
       const requestSecondGameCharacter = {
         Id: uuidv4(), // Nouvelle clé primaire pour GameCharacter
         GameId: gameId,
@@ -658,23 +641,17 @@ const CreateANewGame = (UserId, data, imagePath) => {
       };
       const IllustrationRequest = {
         Id: imagePath,
-        DateCreation: new Date()
+        DateCreation: date
       }
-
-      // const requestLocation = {
-      //   Id: uuidv4(), 
-      //   LocationId: data.LocationId,
-      //   FictionId: requestNewFiction.Id
-      // };
+      const requestIllustration = {
+        Id: imagePath,
+        DateCreation: date
+      }
       const secondRequest = model.Fiction.create(requestNewFiction);
       const thirdRequest = model.UsersGame.create(requestUserGame);
       const fourRequest = model.GameCharacter.create(requestFirstGameCharacter)
       const fiveRequest = model.GameCharacter.create(requestSecondGameCharacter)
-
-      // const sixRequest = model.FictionLocation.create(requestLocation)
       const sevenRequest = model.Illustration.create(IllustrationRequest)
-
-
       promises.push(secondRequest);
       return secondRequest
         .then(() => {
@@ -687,7 +664,6 @@ const CreateANewGame = (UserId, data, imagePath) => {
                   promises.push(fiveRequest)
                   return fiveRequest
                     .then(() => {
-                      // return Promise.all(promises);
                       promises.push(sevenRequest)
                       return sevenRequest
                         .then(() => {
@@ -702,7 +678,7 @@ const CreateANewGame = (UserId, data, imagePath) => {
                             .then(() => {
                               const _RequestIllustratio = model.Illustration.create(requestIllustration)
                               const requestFicIllustration = {
-                                Id:uuidv4(),
+                                Id: uuidv4(),
                                 FictionId: FictionId,
                                 IllustrationId: imagePath
                               }
@@ -714,15 +690,11 @@ const CreateANewGame = (UserId, data, imagePath) => {
                                   console.log(err);
                                   return Promise.reject(err);
                                 });
-
-
-                              return Promise.all(promises);
                             }
                             ).catch((err) => {
                               console.log(err);
                               return Promise.reject(err);
                             });
-
                         })
                         .catch((err) => {
                           console.log(err);
