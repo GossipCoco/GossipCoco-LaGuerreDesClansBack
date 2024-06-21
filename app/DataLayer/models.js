@@ -548,6 +548,16 @@ const Image = connection.define(
   },
   { freezeTableName: true, timestamps: false }
 );
+const CharacterImage = connection.define(
+  "CharacterImage",
+  {
+    Id: {
+      type: DataTypes.STRING,
+      primaryKey: true,
+    },
+  },
+  { freezeTableName: true, timestamps: false }
+);
 const TypeGame = connection.define(
   "TypeGame",
   {
@@ -668,6 +678,11 @@ Chapter.hasMany(ChapterLocation);
 ChapterLocation.belongsTo(Location, { foreignKey: "LocationId" });
 Location.hasMany(ChapterLocation);
 
+CharacterImage.belongsTo(Character, { foreignKey: "CharacterId" })
+Character.hasMany(CharacterImage)
+
+CharacterImage.belongsTo(Image, { foreignKey: "ImageId" })
+Image.hasMany(CharacterImage)
 
 FictionIllustration.belongsTo(Fiction, { foreignKey: "FictionId" });
 Fiction.hasMany(FictionIllustration);
@@ -756,6 +771,7 @@ const models = {
   FictionLocation,
   ChapterLocation,
   Comment,
+  CharacterImage,
   Sequelize,
   Utils: {
     Op,

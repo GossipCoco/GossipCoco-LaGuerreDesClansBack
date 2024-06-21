@@ -194,10 +194,12 @@ const GetAllCharacters = (nav) => {
   return model.Character.findAll({
     offset: nav.step * nav.current,
     limit: nav.step,
+    order: [["CurrentName", "ASC"]],
     include: [
       { model: model.Grade },
       {
         model: model.Warrior,
+        
         include: [
           {
             model: model.Clan,
@@ -260,9 +262,10 @@ const GetAllCharactersByUser = (user) => {
 
 const GetCharacterByName = (name) => {
   console.log("**** Character ****", name);
-  return model.Character.findAll({
+  return model.Character.findOne({
     where: { Id: { [model.Utils.Op.like]: name } },
     include: [
+      { model: model.CharacterImage },
       { model: model.Grade },
       {
         model: model.Warrior,
@@ -276,6 +279,11 @@ const GetCharacterByName = (name) => {
         order: [["ClanId", "ASC"]],
       },
       { model: model.ExistingCharacter },
+      { model: model.CharacterImage },
+      {
+        model: model.RelationCharacters,
+        include: [{model: model.TypeRelation}]
+      },
       {
         model: model.OriginalCharacter,
         include: [{ model: model.User }],
@@ -287,7 +295,8 @@ const GetCharacterByName = (name) => {
 const GetCharacterByNameSearch = (name) => {
   console.log("**** Character ****", name);
   return model.Character.findAll({
-    where: { CurrentName: { [model.Utils.Op.like]: `%${name}%` } },
+    where: { Id: { [model.Utils.Op.like]: `%${name}%` },
+            CurrentName: { [model.Utils.Op.like]: `%${name}%` }  },
     include: [
       { model: model.Grade },
       {
