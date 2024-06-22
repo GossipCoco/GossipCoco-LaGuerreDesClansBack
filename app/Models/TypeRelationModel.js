@@ -1,8 +1,8 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../DataLayer/connectionWithSingleton');
 
-const Clan = sequelize.define(
-    "Clan",
+const TypeRelation = sequelize.define(
+    "TypeRelation",
     {
       Id: {
         type: DataTypes.STRING,
@@ -11,15 +11,7 @@ const Clan = sequelize.define(
       Name: {
         type: DataTypes.STRING,
       },
-      Description: {
-        type: DataTypes.TEXT,
-      },
-      Image: {
-        type: DataTypes.STRING,
-      },
-      Symbol: {
-        type: DataTypes.STRING,
-      },
     },
     { freezeTableName: true, timestamps: false }
   );
+  module.exports = TypeRelation 

@@ -1,8 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../DataLayer/connectionWithSingleton');
-
-const Clan = sequelize.define(
-    "Clan",
+const Location = sequelize.define(
+    "Location",
     {
       Id: {
         type: DataTypes.STRING,
@@ -17,9 +16,7 @@ const Clan = sequelize.define(
       Image: {
         type: DataTypes.STRING,
       },
-      Symbol: {
-        type: DataTypes.STRING,
-      },
     },
     { freezeTableName: true, timestamps: false }
   );
+module.exports = Location

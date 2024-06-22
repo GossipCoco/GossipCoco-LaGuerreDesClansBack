@@ -1,4 +1,5 @@
 const { Sequelize } = require('sequelize');
+const config = require('../config/db.config');
 
 class Database {
   constructor() {
@@ -11,22 +12,7 @@ class Database {
   }
 
   _init() {
-    this.connection = new Sequelize({
-      "username": "sa",
-      "password": '23031983',
-      "database": "laGuerreDesClans",
-      "host": "localhost",
-      "dialect": "mssql",
-      dialectOptions: {
-        options: {
-          encrypt: true, // Si nécessaire pour votre configuration MSSQL
-          requestTimeout: 30000 // 30 secondes
-        }
-      },
-      options: {
-        instanceName: 'sqlexpress'
-      }
-    });
+    this.connection = new Sequelize(config.BDD.SQLServer);
 
     this.connection
       .authenticate()

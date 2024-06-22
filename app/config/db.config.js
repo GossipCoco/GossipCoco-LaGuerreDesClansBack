@@ -1,31 +1,26 @@
 module.exports = {
-    BDD: {
-        SQLServer: {
-            database: 'CoralieProjectLGDC',
-            dialect: 'mssql',
-            host: 'honorin',
-            trustServerCertificate: true,
-            dialectOptions: {
-                authentication: {
-                    options: {
-                        instanceName: 'sa',
-                        userName: 'sa',
-                        password: '01127806'
-                    }
-                },
-                options: {
-                    instanceName: 'sqlexpress',
-                }
-            },
-            options: {
-                trustServerCertificate: true,
-                //port: 1433 // Default Port
-            },
-            logging: false
-        },
-        SQLite: {
-            dialect: 'sqlite',
-            storage: '../../bdd.db'
-        }
+    secret: "gossip-coco-key",
+    JWT: {
+      secret: 'gossip-coco-key',
+      expire: '24h'
     },
-};
+    BDD: {
+      SQLServer: {
+        "username": "sa",
+        "password": '23031983',
+        "database": "laGuerreDesClans",
+        "host": "localhost",
+        "dialect": "mssql",
+        dialectOptions: {
+          options: {
+            encrypt: true, // Si nécessaire pour votre configuration MSSQL
+            requestTimeout: 30000 // 30 secondes
+          }
+        },
+        options: {
+          instanceName: 'sqlexpress'
+        }
+      },
+    },
+  };
+  

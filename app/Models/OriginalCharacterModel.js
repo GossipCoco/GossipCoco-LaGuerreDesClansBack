@@ -1,20 +1,16 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../DataLayer/connectionWithSingleton');
-
-const Battle = sequelize.define(
-    "Battle",
+const OriginalCharacter = sequelize.define(
+    "OriginalCharacter",
     {
       Id: {
         type: DataTypes.STRING,
         primaryKey: true,
       },
-      Title: {
-        type: DataTypes.STRING,
-      },
-      Content: {
-        type: DataTypes.TEXT,
+      FreeUsing: {
+        type: DataTypes.BOOLEAN,
       },
     },
     { freezeTableName: true, timestamps: false }
   );
-  module.exports = Battle
+  module.exports = OriginalCharacter

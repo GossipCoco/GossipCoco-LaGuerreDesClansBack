@@ -1,8 +1,8 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../DataLayer/connectionWithSingleton');
 
-const Clan = sequelize.define(
-    "Clan",
+const Permission = sequelize.define(
+    "Permission",
     {
       Id: {
         type: DataTypes.STRING,
@@ -11,15 +11,11 @@ const Clan = sequelize.define(
       Name: {
         type: DataTypes.STRING,
       },
-      Description: {
-        type: DataTypes.TEXT,
-      },
-      Image: {
-        type: DataTypes.STRING,
-      },
-      Symbol: {
-        type: DataTypes.STRING,
+      Permission: {
+        type: DataTypes.INTEGER,
       },
     },
     { freezeTableName: true, timestamps: false }
   );
+
+  module.exports = Permission

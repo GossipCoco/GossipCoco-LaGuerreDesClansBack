@@ -1,25 +1,17 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../DataLayer/connectionWithSingleton');
-
-const Clan = sequelize.define(
-    "Clan",
+const ExistingCharacter = sequelize.define(
+    "ExistingCharacter",
     {
       Id: {
         type: DataTypes.STRING,
         primaryKey: true,
       },
-      Name: {
-        type: DataTypes.STRING,
-      },
-      Description: {
-        type: DataTypes.TEXT,
-      },
-      Image: {
-        type: DataTypes.STRING,
-      },
-      Symbol: {
+      FirstApparition: {
         type: DataTypes.STRING,
       },
     },
     { freezeTableName: true, timestamps: false }
   );
+
+  module.exports = ExistingCharacter
