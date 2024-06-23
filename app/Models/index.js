@@ -25,7 +25,7 @@ const Warrior = require('./WarriorModel');
 const RolePermission = require('./RolePermission')
 const RelationCharacters = require('./RelationCharacters')
 const UserCharacter = require('./UserCharacter')
-const UsersGame = require('./UserCharacter')
+const UserGame = require('./UserGame')
 const GameCharacter = require('./GameCharacter')
 const FictionIllustration = require('./FictionIllustration')
 const ChapterIllustration = require('./ChapterIllustration')
@@ -65,7 +65,7 @@ const models = {
   Warrior,
   RelationCharacters,
   UserCharacter,
-  UsersGame,
+  UserGame,
   GameCharacter,
   FictionIllustration,
   ChapterIllustration,

@@ -21,7 +21,6 @@ const {
   Warrior,
   RelationCharacters,
   UserCharacter,
-  UsersGame,
   GameCharacter,
   FictionIllustration,
   ChapterIllustration,
@@ -38,6 +37,7 @@ const {
   UserEvent,
   Prey,
   Ennemy,
+  UserGame,
   sequelize: connection,
   Sequelize,
   Utils: {
@@ -140,11 +140,11 @@ User.hasMany(UserEvent)
 UserEvent.belongsTo(Event, { foreignKey: 'EventId' })
 Event.hasMany(UserEvent)
 
-UsersGame.belongsTo(Game, { foreignKey: 'GameId' });
-Game.hasMany(UsersGame);
+UserGame.belongsTo(Game, { foreignKey: 'GameId' });
+Game.hasMany(UserGame, { foreignKey: 'GameId' });
 
-UsersGame.belongsTo(User, { foreignKey: 'UserId' });
-User.hasMany(UsersGame);
+UserGame.belongsTo(User, { foreignKey: 'UserId' });
+User.hasMany(UserGame, { foreignKey: 'UserId' });
 
 UserCharacter.belongsTo(User, { foreignKey: "UserId" });
 User.hasMany(UserCharacter);
@@ -217,7 +217,7 @@ module.exports = {
   Warrior,
   RelationCharacters,
   UserCharacter,
-  UsersGame,
+  UserGame,
   GameCharacter,
   FictionIllustration,
   ChapterIllustration,
