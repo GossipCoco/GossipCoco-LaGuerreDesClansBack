@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../DataLayer/connectionWithSingleton');
+const connection = require('../DataLayer/connectionWithSingleton');
 
-const TypeRelation = sequelize.define(
+const TypeRelation = connection.define(
     "TypeRelation",
     {
       Id: {

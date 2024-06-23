@@ -3,7 +3,7 @@ const multer = require("multer");
 const maxSize = 2 * 1920 * 1920;
 const config = require('../../config')
 
-const queries = require('../DataLayer/queries')
+const queries = require('../Queries/UserQueries')
 
 let storage = multer.diskStorage({
   destination: (req, file, cb) => {  

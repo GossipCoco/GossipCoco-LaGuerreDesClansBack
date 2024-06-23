@@ -1,6 +1,6 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../DataLayer/connectionWithSingleton');
-const Location = sequelize.define(
+const connection = require('../DataLayer/connectionWithSingleton');
+const Location = connection.define(
     "Location",
     {
       Id: {

@@ -1,4 +1,4 @@
-const queries = require("../DataLayer/queries");
+const queries = require("../Queries/LocationQueries");
 
 const Clan = {};
 

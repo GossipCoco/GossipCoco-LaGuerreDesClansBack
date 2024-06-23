@@ -1,48 +1,13 @@
 const jwt = require('jsonwebtoken');
-const queries = require('../DataLayer/queries')
 const config = require("../config/auth.config.js");
-const model = require('../DataLayer/models')
-const userApi = require('../middleware/UserApi.js')
+const UserQueries = require('../Queries/UserQueries.js')
 const User = {};
-
-User.GetAllUsers = (req, res) => {
-  queries.GetAllUsers()
-    .then(w => {
-      console.log('w.User', w)
-      res.send({ ob: w, res: true }).status(200)
-    })
-    .catch(err => {
-      console.log(err)
-      res.send(err).status(500)
-    })
-}
-User.GetUserById = (req, res) => {
-  const id = req.params.id;
-  queries.GetUserById(id)
-    .then(w => {
-      res.send({ ob: w, res: true }).status(200)
-    })
-    .catch(err => {
-      console.log(err)
-      res.send(err).status(500)
-    })
-}
-User.UpdateUserInformations = (req, res) => {
-  queries.UpdateUserInformations(req.params.id, req.body)
-    .then(w => {
-      res.send({ ob: w, res: true }).status(200)
-    })
-    .catch(err => {
-      console.log(err)
-      res.send(err).status(500)
-    })
-}
 User.Login = (req, res) => {
   // console.log('req body', req.body)
   const { Email, password } = req.body;
   console.log(req.body)
   const Pwd = req.body.Password
-  queries.GetUserByEmail(Email)
+  UserQueries.GetUserByEmail(Email)
     .then(user => {
       console.log(user)
       // console.log("user controller", user.Password)
@@ -64,7 +29,7 @@ User.Login = (req, res) => {
         expiresIn: 86400 // 24 hours
       });
       result.tocken = token
-      queries.UpdateLastDateConnection(user.Id, user.Email)
+      UserQueries.UpdateLastDateConnection(user.Id, user.Email)
       .then(response => {
         console.log(response)
         res.status(200).send(result);
@@ -80,5 +45,37 @@ User.Login = (req, res) => {
       res.status(500).send(err);
     });
 };
-8338
+User.GetAllUsers = (req, res) => {
+  UserQueries.GetAllUsers()
+    .then(w => {
+      console.log('w.User', w)
+      res.send({ ob: w, res: true }).status(200)
+    })
+    .catch(err => {
+      console.log(err)
+      res.send(err).status(500)
+    })
+}
+User.GetUserById = (req, res) => {
+  const id = req.params.id;
+  UserQueries.GetUserById(id)
+    .then(w => {
+      res.send({ ob: w, res: true }).status(200)
+    })
+    .catch(err => {
+      console.log("GetUserById", err)
+      res.send(err).status(500)
+    })
+}
+User.UpdateUserInformations = (req, res) => {
+  UserQueries.UpdateUserInformations(req.params.id, req.body)
+    .then(w => {
+      res.send({ ob: w, res: true }).status(200)
+    })
+    .catch(err => {
+      console.log(err)
+      res.send(err).status(500)
+    })
+}
+
 module.exports = User

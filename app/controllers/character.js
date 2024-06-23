@@ -1,9 +1,7 @@
-const queries = require('../DataLayer/queries')
-const model = require('../DataLayer/models');
-
+const query = require('../Queries/CharacterQueries')
 const Character = {}
 Character.countAllCharacters = (req, res) => {
-    queries.countAllCharacters()
+    query.countAllCharacters()
         .then(w => {
             const nbResult = Object.keys(w).length
 
@@ -16,18 +14,19 @@ Character.countAllCharacters = (req, res) => {
 }
 Character.GetAllCharacters = (req, res) => {
     console.log(req.body)
-    queries.GetAllCharacters(req.body.nav)
+    query.GetAllCharacters(req.body.nav)
         .then(w => {
+            console.log("w : ", w)
             res.send({ ob: w, res: true }).status(200)
         })
         .catch(err => {
-            //console.log(err)
+            console.log(err)
             res.send(err).status(500)
         })
 }
 Character.GetAllCharactersDashboard = (req, res) => {
     console.log(req.body)
-    queries.GetAllCharactersDashboard(req.body.nav)
+    query.GetAllCharactersDashboard(req.body.nav)
         .then(w => {
             // console.log("------ W -------", w)
             res.send({ ob: w, res: true }).status(200)
@@ -39,7 +38,7 @@ Character.GetAllCharactersDashboard = (req, res) => {
 }
 Character.GetCharacterByName = (req, res) => {
     const id = req.params.id
-    queries.GetCharacterByName(id)
+    query.GetCharacterByName(id)
         .then(w => {
             res.send({ ob: w, res: true }).status(200)
         })
@@ -51,7 +50,7 @@ Character.GetCharacterByName = (req, res) => {
 Character.GetCharacterByNameSearch = (req, res) => {
     const id = req.params.name
     //console.log(id)
-    queries.GetCharacterByNameSearch(id)
+    query.GetCharacterByNameSearch(id)
         .then(w => {
             res.send({ ob: w, res: true }).status(200)
         })
@@ -69,7 +68,7 @@ Character.CreateANewCharacter = (req, res) => {
         data.Image = imageFile.filename;
     }
     console.log(data)
-    queries.CreateANewCharacter(data)
+    query.CreateANewCharacter(data)
         .then(w => {
             res.send({ ob: w, res: true }).status(200)
         })
@@ -79,7 +78,7 @@ Character.CreateANewCharacter = (req, res) => {
         })
 }
 Character.GetAllNamesAndIdsCharacters = (req, res) => {
-    queries.GetAllNamesAndIdsCharacters()
+    query.GetAllNamesAndIdsCharacters()
         .then((w) => {
             // console.log(w)
             res.send({ ob: w, res: true, message: "GetAllNamesAndIdsCharacters" }).status(200);
@@ -90,7 +89,7 @@ Character.GetAllNamesAndIdsCharacters = (req, res) => {
         });
 }
 Character.GetAllCharactersByUser = (req, res) => {
-    queries.GetAllCharactersByUser(req.params.id)
+    query.GetAllCharactersByUser(req.params.id)
         .then((w) => {
             // console.log(w)
             res.send({ ob: w, res: true, message: "GetAllCharactersByUser" }).status(200);

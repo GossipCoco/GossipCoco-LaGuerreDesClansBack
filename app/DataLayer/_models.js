@@ -46,6 +46,10 @@ const User = connection.define(
     Biography: {
       type: DataTypes.TEXT,
     },
+    TotalPoints: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
+    },
   },
   { freezeTableName: true, timestamps: false }
 );
@@ -603,50 +607,441 @@ const Comment = connection.define(
     },
   },{ freezeTableName: true, timestamps: false });
 
+  const Points = connection.define('Points', {
+    Id: {
+      type: DataTypes.STRING,
+      primaryKey: true,
+    },
+    UserId: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      references: {
+        model: 'User', // 'User' refers to table name
+        key: 'Id',
+      }
+    },
+    Points: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
+    },
+    DateEarned: {
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW,
+    }
+  }, {
+    freezeTableName: true,
+    timestamps: false,
+  });
+  const Quest = connection.define('Quest', {
+    Id: {
+      type: DataTypes.STRING,
+      primaryKey: true,
+    },
+    Title: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    Description: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
+    PointsReward: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    DateCreated: {
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW,
+    }
+  }, {
+    freezeTableName: true,
+    timestamps: false,
+  });
+  
+  const UserQuest = connection.define('UserQuest', {
+    Id: {
+      type: DataTypes.STRING,
+      primaryKey: true,
+    },
+    UserId: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      references: {
+        model: 'User',
+        key: 'Id',
+      }
+    },
+    QuestId: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      references: {
+        model: 'Quest',
+        key: 'Id',
+      }
+    },
+    Completed: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
+    DateCompleted: {
+      type: DataTypes.DATE,
+    }
+  }, {
+    freezeTableName: true,
+    timestamps: false,
+  });
+
+  const Notification = connection.define('Notification', {
+    Id: {
+      type: DataTypes.STRING,
+      primaryKey: true,
+    },
+    UserId: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      references: {
+        model: 'User',
+        key: 'Id',
+      }
+    },
+    Message: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
+    DateCreated: {
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW,
+    },
+    Read: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    }
+  }, {
+    freezeTableName: true,
+    timestamps: false,
+  });
+
+  const Event = connection.define('Event', {
+    Id: {
+      type: DataTypes.STRING,
+      primaryKey: true,
+    },
+    Title: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    Description: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
+    StartDate: {
+      type: DataTypes.DATE,
+      allowNull: false,
+    },
+    EndDate: {
+      type: DataTypes.DATE,
+      allowNull: false,
+    }
+  }, {
+    freezeTableName: true,
+    timestamps: false,
+  });
+
+  const UserEvent = connection.define('UserEvent', {
+    Id: {
+      type: DataTypes.STRING,
+      primaryKey: true,
+    },
+    UserId: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      references: {
+        model: 'User',
+        key: 'Id',
+      }
+    },
+    EventId: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      references: {
+        model: 'Event',
+        key: 'Id',
+      }
+    },
+    Participated: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
+    DateParticipated: {
+      type: DataTypes.DATE,
+    }
+  }, {
+    freezeTableName: true,
+    timestamps: false,
+  });
+  
+// User.belongsTo(Level);
+// Level.hasMany(User);
+
+// User.belongsTo(Role, { foreignKey: "RoleId" });
+// Role.hasMany(User);
+
+// RolePermission.belongsTo(Role, { foreignKey: "Id" });
+// Role.hasMany(RolePermission);
+
+// RolePermission.belongsTo(Permission, { foreignKey: "Id" });
+// Permission.hasMany(RolePermission);
+
+
+// User.hasMany(Points, { foreignKey: 'UserId' });
+// Points.belongsTo(User, { foreignKey: 'UserId' });
+
+
+// UserQuest.belongsTo(User,  { foreignKey: 'UserId' })
+// User.hasMany(UserQuest)
+
+
+// UserQuest.belongsTo(Quest,  { foreignKey: 'QuestId' })
+// Quest.hasMany(UserQuest)
+
+
+// UserEvent.belongsTo(User,  { foreignKey: 'UserId' })
+// User.hasMany(UserEvent)
+
+
+// UserEvent.belongsTo(Event,  { foreignKey: 'EventId' })
+// Event.hasMany(UserEvent)
+
+// User.hasMany(Notification, { foreignKey: 'UserId' });
+// Notification.belongsTo(User, { foreignKey: 'UserId' });
+
+
+// ExistingCharacter.belongsTo(Character, { foreignKey: "Id" });
+// Character.hasOne(ExistingCharacter, { foreignKey: "Id" });
+
+// OriginalCharacter.belongsTo(Character, { foreignKey: "Id" });
+// Character.hasOne(OriginalCharacter, { foreignKey: "Id" });
+
+// OriginalCharacter.belongsTo(User);
+// User.hasMany(OriginalCharacter);
+
+// KittyPet.belongsTo(Character, { foreignKey: "Id" });
+// Character.hasOne(KittyPet, { foreignKey: "Id" });
+
+// Loner.belongsTo(Character, { foreignKey: "Id" });
+// Character.hasOne(Loner, { foreignKey: "Id" });
+
+// Warrior.belongsTo(Character, { foreignKey: "Id" });
+// Character.hasOne(Warrior, { foreignKey: "Id" });
+
+// Warrior.belongsTo(Clan);
+// Clan.hasMany(Warrior);
+
+// KittyPet.belongsTo(Clan);
+// Clan.hasMany(KittyPet);
+
+// Loner.belongsTo(Clan);
+// Clan.hasMany(Loner);
+
+// Location.belongsTo(Clan);
+// Clan.hasMany(Location);
+
+// Character.belongsTo(Grade);
+// Grade.hasMany(Character);
+
+// UserCharacter.belongsTo(User, { foreignKey: "UserId" });
+// User.hasMany(UserCharacter);
+
+// UserCharacter.belongsTo(Character, { foreignKey: "CharacterId" });
+// Character.hasMany(UserCharacter);
+
+// GameCharacter.belongsTo(Game, { foreignKey: "GameId" });
+// Game.hasMany(GameCharacter, { foreignKey: "GameId" });
+
+// GameCharacter.belongsTo(Character, { foreignKey: "CharacterId" });
+// Character.hasMany(GameCharacter, { foreignKey: "CharacterId" });
+
+// RelationCharacters.belongsTo(Character, { foreignKey: "IdCharacterOne" });
+// Character.hasMany(RelationCharacters);
+
+// RelationCharacters.belongsTo(Character, { foreignKey: "IdCharacterTwo" });
+// Character.hasMany(RelationCharacters);
+
+// ChapterIllustration.belongsTo(Chapter, { foreignKey: "ChapterId" });
+// Chapter.hasMany(ChapterIllustration);
+
+// ChapterIllustration.belongsTo(Illustration, { foreignKey: "IllustrationId" });
+// Chapter.hasMany(ChapterIllustration);
+
+// FictionLocation.belongsTo(Fiction, { foreignKey: "FictionId" });
+// Fiction.hasMany(FictionLocation);
+
+// FictionLocation.belongsTo(Location, { foreignKey: "LocationId" });
+// Location.hasMany(FictionLocation);
+
+// ChapterLocation.belongsTo(Chapter, { foreignKey: "ChapterId" });
+// Chapter.hasMany(ChapterLocation);
+
+// ChapterLocation.belongsTo(Location, { foreignKey: "LocationId" });
+// Location.hasMany(ChapterLocation);
+
+// CharacterImage.belongsTo(Character, { foreignKey: "CharacterId" })
+// Character.hasMany(CharacterImage)
+
+// CharacterImage.belongsTo(Image, { foreignKey: "ImageId" })
+// Image.hasMany(CharacterImage)
+
+// FictionIllustration.belongsTo(Fiction, { foreignKey: "FictionId" });
+// Fiction.hasMany(FictionIllustration);
+
+// FictionIllustration.belongsTo(Illustration, { foreignKey: "IllustrationId" });
+// Illustration.hasMany(FictionIllustration);
+
+// RelationCharacters.belongsTo(TypeRelation);
+// TypeRelation.hasMany(RelationCharacters);
+
+// Prey.belongsTo(OtherAnimal, { foreignKey: "Id" });
+// OtherAnimal.hasMany(Prey);
+
+// Ennemy.belongsTo(OtherAnimal, { foreignKey: "Id" });
+// OtherAnimal.hasMany(Ennemy);
+
+// UsersGame.belongsTo(Game, { foreignKey: "GameId" });
+// Game.hasMany(UsersGame, { foreignKey: "GameId" });
+
+// UsersGame.belongsTo(User, { foreignKey: "UserId" });
+// User.hasMany(UsersGame, { foreignKey: "UserId" });
+
+// Fiction.belongsTo(User, { foreignKey: "UserId" });
+// User.hasMany(Fiction, { foreignKey: "UserId" });
+
+// Comment.belongsTo(User, { foreignKey: "UserId" })
+// User.hasMany(Comment, { foreignKey: "UserId" });
+
+
+// Comment.belongsTo(Fiction, { foreignKey: "FictionId" })
+// Fiction.hasMany(Comment, { foreignKey: "FictionId" });
+
+
+// Comment.belongsTo(Chapter, { foreignKey: "ChapterId" })
+// Chapter.hasMany(Comment, { foreignKey: "FictionId" });
+
+// Game.hasMany(Fiction)
+// Fiction.belongsTo(Game, { foreignKey: "GameId" })
+
+// Chapter.belongsTo(Fiction, { foreignKey: "FictionId" });
+// Fiction.hasMany(Chapter);
+
+// Chapter.belongsTo(Chapter, { foreignKey: "Id" });
+// Chapter.hasOne(Chapter, { foreignKey: { name: "NextChapterId" } });
+
+
+
+// Définir les associations ici
+RolePermission.belongsTo(Role, { foreignKey: "Id" });
+Role.hasMany(RolePermission);
+
+RolePermission.belongsTo(Permission, { foreignKey: "Id" });
+Permission.hasMany(RolePermission);
+
+// USER
+
 User.belongsTo(Level);
 Level.hasMany(User);
 
-User.belongsTo(Role);
+User.belongsTo(Role, { foreignKey: "RoleId" });
 Role.hasMany(User);
 
-ExistingCharacter.belongsTo(Character, { foreignKey: "Id" });
-Character.hasOne(ExistingCharacter, { foreignKey: "Id" });
+User.hasMany(Points, { foreignKey: 'UserId' });
+Points.belongsTo(User, { foreignKey: 'UserId' });
 
-OriginalCharacter.belongsTo(Character, { foreignKey: "Id" });
-Character.hasOne(OriginalCharacter, { foreignKey: "Id" });
+User.hasMany(Notification, { foreignKey: 'UserId' });
+Notification.belongsTo(User, { foreignKey: 'UserId' });
 
-OriginalCharacter.belongsTo(User);
-User.hasMany(OriginalCharacter);
+// CHARACTER
 
-KittyPet.belongsTo(Character, { foreignKey: "Id" });
-Character.hasOne(KittyPet, { foreignKey: "Id" });
+Character.belongsTo(Grade, { foreignKey: 'GradeId' });
+Grade.hasMany(Character);
 
-Loner.belongsTo(Character, { foreignKey: "Id" });
-Character.hasOne(Loner, { foreignKey: "Id" });
+// ExistingCharacter.belongsTo(Character, { foreignKey: "Id" });
+// Character.hasOne(ExistingCharacter, { foreignKey: "Id" });
 
 Warrior.belongsTo(Character, { foreignKey: "Id" });
 Character.hasOne(Warrior, { foreignKey: "Id" });
 
-Warrior.belongsTo(Clan);
+Warrior.belongsTo(Clan , { foreignKey: "ClanId" });
 Clan.hasMany(Warrior);
 
-KittyPet.belongsTo(Clan);
-Clan.hasMany(KittyPet);
-
-Loner.belongsTo(Clan);
-Clan.hasMany(Loner);
-
-Location.belongsTo(Clan);
+Location.belongsTo(Clan, { foreignKey: "ClanId" });
 Clan.hasMany(Location);
 
-Character.belongsTo(Grade);
-Grade.hasMany(Character);
+// GAME
+
+Fiction.belongsTo(Game, { foreignKey: "GameId" })
+Game.hasMany(Fiction)
+
+//FICTION
+
+Fiction.belongsTo(User, { foreignKey: "UserId" });
+User.hasMany(Fiction);
+
+
+//CHAPTER
+
+Chapter.belongsTo(Fiction, { foreignKey: "FictionId" });
+Fiction.hasMany(Chapter);
+
+Chapter.belongsTo(Chapter, { foreignKey: "Id" });
+Chapter.hasOne(Chapter, { foreignKey: { name: "NextChapterId" } });
+
+
+//COMMENT
+
+Comment.belongsTo(User, { foreignKey: "UserId" })
+User.hasMany(Comment, { foreignKey: "UserId" });
+
+Comment.belongsTo(Fiction, { foreignKey: "FictionId" })
+Fiction.hasMany(Comment, { foreignKey: "FictionId" });
+
+Comment.belongsTo(Chapter, { foreignKey: "ChapterId" })
+Chapter.hasMany(Comment, { foreignKey: "FictionId" });
+
+//OTHERS
+
+RelationCharacters.belongsTo(TypeRelation);
+TypeRelation.hasMany(RelationCharacters);
+
+Prey.belongsTo(OtherAnimal, { foreignKey: "Id" });
+OtherAnimal.hasMany(Prey);
+
+Ennemy.belongsTo(OtherAnimal, { foreignKey: "Id" });
+OtherAnimal.hasMany(Ennemy);
+
+//ASSOCIATION
+
+UserQuest.belongsTo(User, { foreignKey: 'UserId' })
+User.hasMany(UserQuest)
+
+UserQuest.belongsTo(Quest, { foreignKey: 'QuestId' })
+Quest.hasMany(UserQuest)
+
+UserEvent.belongsTo(User, { foreignKey: 'UserId' })
+User.hasMany(UserEvent)
+
+UserEvent.belongsTo(Event, { foreignKey: 'EventId' })
+Event.hasMany(UserEvent)
 
 UserCharacter.belongsTo(User, { foreignKey: "UserId" });
 User.hasMany(UserCharacter);
 
 UserCharacter.belongsTo(Character, { foreignKey: "CharacterId" });
 Character.hasMany(UserCharacter);
+
+UsersGame.belongsTo(Game, { foreignKey: "GameId" });
+Game.hasMany(UsersGame);
+
+UsersGame.belongsTo(User, { foreignKey: "UserId" });
+User.hasMany(UsersGame);
 
 GameCharacter.belongsTo(Game, { foreignKey: "GameId" });
 Game.hasMany(GameCharacter, { foreignKey: "GameId" });
@@ -690,51 +1085,6 @@ Fiction.hasMany(FictionIllustration);
 FictionIllustration.belongsTo(Illustration, { foreignKey: "IllustrationId" });
 Illustration.hasMany(FictionIllustration);
 
-RelationCharacters.belongsTo(TypeRelation);
-TypeRelation.hasMany(RelationCharacters);
-
-Prey.belongsTo(OtherAnimal, { foreignKey: "Id" });
-OtherAnimal.hasMany(Prey);
-
-Ennemy.belongsTo(OtherAnimal, { foreignKey: "Id" });
-OtherAnimal.hasMany(Ennemy);
-
-UsersGame.belongsTo(Game, { foreignKey: "GameId" });
-Game.hasMany(UsersGame, { foreignKey: "GameId" });
-
-UsersGame.belongsTo(User, { foreignKey: "UserId" });
-User.hasMany(UsersGame, { foreignKey: "UserId" });
-
-Fiction.belongsTo(User, { foreignKey: "UserId" });
-User.hasMany(Fiction, { foreignKey: "UserId" });
-
-Comment.belongsTo(User, { foreignKey: "UserId" })
-User.hasMany(Comment, { foreignKey: "UserId" });
-
-
-Comment.belongsTo(Fiction, { foreignKey: "FictionId" })
-Fiction.hasMany(Comment, { foreignKey: "FictionId" });
-
-
-Comment.belongsTo(Chapter, { foreignKey: "ChapterId" })
-Chapter.hasMany(Comment, { foreignKey: "FictionId" });
-
-Game.hasMany(Fiction)
-Fiction.belongsTo(Game, { foreignKey: "GameId" })
-
-Chapter.belongsTo(Fiction, { foreignKey: "FictionId" });
-Fiction.hasMany(Chapter);
-
-Chapter.belongsTo(Chapter, { foreignKey: "Id" });
-Chapter.hasOne(Chapter, { foreignKey: { name: "NextChapterId" } });
-
-RolePermission.belongsTo(Role, { foreignKey: "Id" });
-Role.hasMany(RolePermission);
-
-RolePermission.belongsTo(Permission, { foreignKey: "Id" });
-Permission.hasMany(RolePermission);
-
-
 
 const models = {
   User,
@@ -771,7 +1121,13 @@ const models = {
   FictionLocation,
   ChapterLocation,
   Comment,
+  Points,
   CharacterImage,
+  Quest,
+  UserQuest,
+  Notification,
+  UserEvent,
+  Event,
   Sequelize,
   Utils: {
     Op,

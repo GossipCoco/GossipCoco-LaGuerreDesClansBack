@@ -1,0 +1,243 @@
+const {
+  User,
+  Level,
+  Role,
+  Battle,
+  Clan,
+  Character,
+  Chapter,
+  Comment,
+  ExistingCharacter,
+  Fiction,
+  Game,
+  Illustration,
+  Image,
+  Location,
+  OriginalCharacter,
+  OtherAnimal,
+  Permission,
+  TypeRelation,
+  TypeGame,
+  Warrior,
+  RelationCharacters,
+  UserCharacter,
+  UsersGame,
+  GameCharacter,
+  FictionIllustration,
+  ChapterIllustration,
+  RolePermission,
+  CharacterImage,
+  FictionLocation,
+  ChapterLocation,
+  Grade,
+  Points,
+  Quest,
+  UserQuest,
+  Notification,
+  Event,
+  UserEvent,
+  Prey,
+  Ennemy,
+  sequelize: connection,
+  Sequelize,
+  Utils: {
+    Op,
+    sequelize,
+  },
+} = require('./index');
+
+// Définir les associations ici
+RolePermission.belongsTo(Role, { foreignKey: "Id" });
+Role.hasMany(RolePermission);
+
+RolePermission.belongsTo(Permission, { foreignKey: "Id" });
+Permission.hasMany(RolePermission);
+
+// USER
+
+User.belongsTo(Level);
+Level.hasMany(User);
+
+User.belongsTo(Role, { foreignKey: "RoleId" });
+Role.hasMany(User);
+
+User.hasMany(Points, { foreignKey: 'UserId' });
+Points.belongsTo(User, { foreignKey: 'UserId' });
+
+User.hasMany(Notification, { foreignKey: 'UserId' });
+Notification.belongsTo(User, { foreignKey: 'UserId' });
+
+// CHARACTER
+
+Character.belongsTo(Grade, { foreignKey: "GradeId" });
+Grade.hasMany(Character)
+
+
+Character.belongsTo(Warrior, { foreignKey: "WarriorId" })
+Warrior.hasOne(Character);
+
+
+Warrior.belongsTo(Clan , { foreignKey: "ClanId" });
+Clan.hasMany(Warrior);
+
+Location.belongsTo(Clan, { foreignKey: "ClanId" });
+Clan.hasMany(Location);
+
+// GAME
+
+Fiction.belongsTo(Game, { foreignKey: "GameId" })
+Game.hasMany(Fiction)
+
+
+//FICTION
+
+Fiction.belongsTo(User, { foreignKey: "UserId" });
+User.hasMany(Fiction);
+
+
+//CHAPTER
+
+Chapter.belongsTo(Fiction, { foreignKey: "FictionId" });
+Fiction.hasMany(Chapter);
+
+Chapter.belongsTo(Chapter, { foreignKey: "Id" });
+Chapter.hasOne(Chapter, { foreignKey: { name: "NextChapterId" } });
+
+
+//COMMENT
+
+Comment.belongsTo(User, { foreignKey: "UserId" })
+User.hasMany(Comment, { foreignKey: "UserId" });
+
+Comment.belongsTo(Fiction, { foreignKey: "FictionId" })
+Fiction.hasMany(Comment, { foreignKey: "FictionId" });
+
+Comment.belongsTo(Chapter, { foreignKey: "ChapterId" })
+Chapter.hasMany(Comment, { foreignKey: "FictionId" });
+
+//OTHERS
+
+RelationCharacters.belongsTo(TypeRelation);
+TypeRelation.hasMany(RelationCharacters);
+
+Prey.belongsTo(OtherAnimal, { foreignKey: "Id" });
+OtherAnimal.hasMany(Prey);
+
+Ennemy.belongsTo(OtherAnimal, { foreignKey: "Id" });
+OtherAnimal.hasMany(Ennemy);
+
+//ASSOCIATION
+
+UserQuest.belongsTo(User, { foreignKey: 'UserId' })
+User.hasMany(UserQuest)
+
+UserQuest.belongsTo(Quest, { foreignKey: 'QuestId' })
+Quest.hasMany(UserQuest)
+
+UserEvent.belongsTo(User, { foreignKey: 'UserId' })
+User.hasMany(UserEvent)
+
+UserEvent.belongsTo(Event, { foreignKey: 'EventId' })
+Event.hasMany(UserEvent)
+
+UsersGame.belongsTo(Game, { foreignKey: 'GameId' });
+Game.hasMany(UsersGame);
+
+UsersGame.belongsTo(User, { foreignKey: 'UserId' });
+User.hasMany(UsersGame);
+
+UserCharacter.belongsTo(User, { foreignKey: "UserId" });
+User.hasMany(UserCharacter);
+
+UserCharacter.belongsTo(Character, { foreignKey: "CharacterId" });
+Character.hasMany(UserCharacter);
+
+GameCharacter.belongsTo(Game, { foreignKey: "GameId" });
+Game.hasMany(GameCharacter);
+
+GameCharacter.belongsTo(Character, { foreignKey: "CharacterId" });
+Character.hasMany(GameCharacter);
+
+RelationCharacters.belongsTo(Character, { foreignKey: "IdCharacterOne" });
+Character.hasMany(RelationCharacters);
+
+RelationCharacters.belongsTo(Character, { foreignKey: "IdCharacterTwo" });
+Character.hasMany(RelationCharacters);
+
+ChapterIllustration.belongsTo(Chapter, { foreignKey: "ChapterId" });
+Chapter.hasMany(ChapterIllustration);
+
+ChapterIllustration.belongsTo(Illustration, { foreignKey: "IllustrationId" });
+Chapter.hasMany(ChapterIllustration);
+
+FictionLocation.belongsTo(Fiction, { foreignKey: "FictionId" });
+Fiction.hasMany(FictionLocation);
+
+FictionLocation.belongsTo(Location, { foreignKey: "LocationId" });
+Location.hasMany(FictionLocation);
+
+ChapterLocation.belongsTo(Chapter, { foreignKey: "ChapterId" });
+Chapter.hasMany(ChapterLocation);
+
+ChapterLocation.belongsTo(Location, { foreignKey: "LocationId" });
+Location.hasMany(ChapterLocation);
+
+CharacterImage.belongsTo(Character, { foreignKey: "CharacterId" })
+Character.hasMany(CharacterImage)
+
+CharacterImage.belongsTo(Image, { foreignKey: "ImageId" })
+Image.hasMany(CharacterImage)
+
+FictionIllustration.belongsTo(Fiction, { foreignKey: "FictionId" });
+Fiction.hasMany(FictionIllustration);
+
+FictionIllustration.belongsTo(Illustration, { foreignKey: "IllustrationId" });
+Illustration.hasMany(FictionIllustration);
+
+module.exports = {
+  User,
+  Level,
+  Role,
+  Battle,
+  Clan,
+  Character,
+  Chapter,
+  Comment,
+  ExistingCharacter,
+  Fiction,
+  Game,
+  Illustration,
+  Image,
+  Location,
+  OriginalCharacter,
+  OtherAnimal,
+  Permission,
+  TypeRelation,
+  TypeGame,
+  Warrior,
+  RelationCharacters,
+  UserCharacter,
+  UsersGame,
+  GameCharacter,
+  FictionIllustration,
+  ChapterIllustration,
+  RolePermission,
+  FictionLocation,
+  ChapterLocation,
+  Grade,
+  CharacterImage,
+  Points,
+  Quest,
+  UserQuest,
+  Notification,
+  Event,
+  UserEvent,
+  Prey,
+  Ennemy,
+  sequelize: connection,
+  Sequelize,
+  Utils: {
+    Op,
+    sequelize,
+  },
+}

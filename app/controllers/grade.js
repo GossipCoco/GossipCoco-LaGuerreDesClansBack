@@ -1,6 +1,6 @@
 const Grade = {};
 
-const queries = require('../DataLayer/queries')
+const queries = require('../Queries/GradeQueries')
 
 Grade.GetAllGrades = (req, res) => {
     queries.GetAllGrades(req, res)

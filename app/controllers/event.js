@@ -1,0 +1,29 @@
+const queries = require("../Queries/EventQueries");
+
+const Event = {};
+
+Event.GetAllEvents = (req, res) => {
+  console.log("**** GetAllEvents ****");
+  queries
+    .GetAllEvents()
+    .then((w) => {
+      res.send({ ob: w, res: true }).status(200);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.send(err).status(500);
+    });
+};
+Event.GetPointParId = (req, res ) => {
+  console.log(req.body)
+  queries
+    .GetPointParId(req.params.id, req.body)
+    .then((w) => {
+      res.send({ ob: w, res: true }).status(200);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.send(err).status(500);
+    });
+  }
+module.exports = Event

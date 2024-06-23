@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../DataLayer/connectionWithSingleton');
+const connection = require('../DataLayer/connectionWithSingleton');
 
-const Clan = sequelize.define(
+const Clan = connection.define(
     "Clan",
     {
       Id: {
@@ -23,3 +23,4 @@ const Clan = sequelize.define(
     },
     { freezeTableName: true, timestamps: false }
   );
+  module.exports = Clan

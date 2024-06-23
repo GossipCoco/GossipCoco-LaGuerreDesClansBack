@@ -1,5 +1,5 @@
 const SocketIO = require("socket.io")
-const queries = require('../DataLayer/queries')
+
 let io = {}
 const message = "Bienvenue sur l'application de révision"
 
@@ -10,6 +10,7 @@ const SocketIOController = (server, options) => {
         console.log('first connection : ', socket.id)
         socketId = socket.id
         const usr='gossipCoco'
+        socket.broadcast.emit('move', (io, socketId, usr, message));
         sendMessageWelcome(io, socketId, usr, message)  
         // queries.GetUserById('gossipCoco')
         // .then(w => {

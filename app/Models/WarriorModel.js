@@ -1,6 +1,6 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../DataLayer/connectionWithSingleton');
-const Warrior = sequelize.define(
+const connection = require('../DataLayer/connectionWithSingleton');
+const Warrior = connection.define(
     "Warrior",
     {
       Id: {
@@ -16,3 +16,4 @@ const Warrior = sequelize.define(
     },
     { freezeTableName: true, timestamps: false }
   );
+  module.exports = Warrior

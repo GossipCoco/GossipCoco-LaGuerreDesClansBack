@@ -1,4 +1,4 @@
-const queries = require("../DataLayer/queries");
+const queries = require("../Queries/ImageQueries");
 
 const uploadFile = require("../middleware/upload");
 const uploadFileAvatar = require("../middleware/uploadAvatar");

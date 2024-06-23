@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-const queries = require('../DataLayer/queries');
+const queries = require('../Queries/UserQueries');
 
 const UserApi = {};
 

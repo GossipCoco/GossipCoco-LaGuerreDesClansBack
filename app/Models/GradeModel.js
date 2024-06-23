@@ -1,6 +1,6 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../DataLayer/connectionWithSingleton');
-const Grade = sequelize.define(
+const connection = require('../DataLayer/connectionWithSingleton');
+const Grade = connection.define(
     "Grade",
     {
       Id: {
@@ -16,3 +16,4 @@ const Grade = sequelize.define(
     },
     { freezeTableName: true, timestamps: false }
   );
+  module.exports = Grade

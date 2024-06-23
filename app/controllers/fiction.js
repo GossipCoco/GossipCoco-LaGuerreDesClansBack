@@ -1,5 +1,5 @@
-const queries = require("../DataLayer/queries");
-const model = require('../DataLayer/models');
+const queries = require("../Queries/FictionQueries");
+
 const Fiction = {}
 
 
