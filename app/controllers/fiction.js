@@ -85,4 +85,17 @@ Fiction.GetFiveLastChapByUser = (req, res) => {
     res.send(err).status(500);
   });
 }
+Fiction.AddRating = (req, res) => {
+  const { Id, FictionId, Rating, UserId,  DateRated} = req.body;
+  console.log()
+  queries.AddRating(req.params.id, { Id, FictionId, UserId, Rating,  DateRated})
+  .then((w) => {
+    // console.log("CountTotalWordByUserV2", w)
+    res.send({ ob: w, res: true, message: "CountTotalWordAddRatingBuUserV2" }).status(200);
+  })
+  .catch((err) => {
+    console.log("CountTotalWordByUserV2", err);
+    res.send(err).status(500);
+  });
+}
 module.exports = Fiction

@@ -38,6 +38,7 @@ const {
   Prey,
   Ennemy,
   UserGame,
+  Ratings,
   sequelize: connection,
   Sequelize,
   Utils: {
@@ -125,6 +126,12 @@ OtherAnimal.hasMany(Prey);
 
 Ennemy.belongsTo(OtherAnimal, { foreignKey: "Id" });
 OtherAnimal.hasMany(Ennemy);
+
+Ratings.belongsTo(Fiction, { foreignKey: 'FictionId' });
+Fiction.hasMany(Ratings);
+
+Ratings.belongsTo(User, { foreignKey: 'UserId' });
+User.hasMany(Ratings);
 
 //ASSOCIATION
 
@@ -234,6 +241,7 @@ module.exports = {
   UserEvent,
   Prey,
   Ennemy,
+  Ratings,
   sequelize: connection,
   Sequelize,
   Utils: {

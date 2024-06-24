@@ -14,6 +14,7 @@ router
    .post('/chapitre/:id', Fiction.GetAChapterByName)
    .post('/createAChapitre/:id',  uploadFileMiddleware.single('image'),Fiction.CreateANewChapter)
    .post('/GetLastChapterOfAFiction/:id', Fiction.GetLastChapterOfAFiction)
+   .post('/AddRating/:id', Fiction.AddRating)
    
    
 

@@ -40,6 +40,7 @@ const Event = require('./EventModel')
 const UserEvent = require('./UserEventModel')
 const Prey = require('./PreyModel')
 const Ennemy = require('./EnnemyModel')
+const Ratings = require('./RatingModel')
 
 // Exporter les modèles
 const models = {
@@ -83,6 +84,7 @@ const models = {
   UserEvent,
   Prey,
   Ennemy,
+  Ratings,
   sequelize: connection,
   Sequelize,
   Utils: {

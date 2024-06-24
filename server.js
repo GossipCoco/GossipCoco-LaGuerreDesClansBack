@@ -20,7 +20,7 @@ const Game = require('./app/routes/Game')
 const Fiction = require('./app/routes/fiction')
 const chatgptRouter = require('./app/routes/chatgpt');
 const Event = require('./app/routes/event')
-
+const Quest = require('./app/routes/quest')
 const imagegenRouter  = require('./app/routes/imagegen');
 const rateLimit = require('express-rate-limit');
 
@@ -60,6 +60,7 @@ app
   .use('/api', chatgptRouter)
   .use('/api', imagegenRouter)
   .use('/event', Event)
+  .use('/quest', Quest)
   .use(helmet())
   .use(limiter)
   .use(function (req, res) {
