@@ -39,6 +39,7 @@ const {
   Ennemy,
   UserGame,
   Ratings,
+  QuestImage,
   sequelize: connection,
   Sequelize,
   Utils: {
@@ -140,6 +141,9 @@ User.hasMany(UserQuest)
 
 UserQuest.belongsTo(Quest, { foreignKey: 'QuestId' })
 Quest.hasMany(UserQuest)
+
+QuestImage.belongsTo(Quest, { foreignKey: 'QuestId' })
+Quest.hasMany(QuestImage)
 
 UserEvent.belongsTo(User, { foreignKey: 'UserId' })
 User.hasMany(UserEvent)
