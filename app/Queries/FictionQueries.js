@@ -5,7 +5,7 @@ require('../Models/associations');
 const GetAllFictionsByName = (name, nav) => {
   console.log("**** GetAllFictionsByName ****", name, nav);
   console.log(name, nav)
-  return model.Fiction.findOne({
+  return model.Fiction.findAll({
     where: {
       Id: { [model.Utils.Op.like]: `%${name}%` },
     },
