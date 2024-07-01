@@ -4,9 +4,10 @@ const Quest = require('../controllers/quest');
 const router = express.Router();
 
 router
+    .get('/GetTotalQuest', Quest.GetTotalQuest)
     .post('/', Quest.GetAllQuests)
     .get('/:id', Quest.GetQuestById)
-    .get('/GetTotalQueries', Quest.GetTotalQueries)
+
 
 
 module.exports = router;

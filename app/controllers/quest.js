@@ -2,9 +2,8 @@ const Quest = {}
 
 const queries = require("../Queries/QuestQueries");
 
-
-Quest.GetTotalQueries = (req, res) => {
-  queries.GetTotalQueries()
+Quest.GetTotalQuest = (req, res) => {
+  queries.GetTotalQuest()
     .then((w) => {
       res.send({ ob: w.count, res: true }).status(200);
     })

@@ -6,15 +6,15 @@ require('../Models/associations');
  * 
  * @returns {Object}
  */
-const GetTotalQueries = () => {    
-    console.log("******** GetAllQuests ********")
+const GetTotalQuest = () => {    
+    console.log("******** GetTotalQuest ********")
     const promises = []
     const request = model.Quest.findAndCountAll({})
     promises.push(request)
     return request
       .then(w => {
         const nbResult = Object.keys(w.rows).length
-        console.log(nbResult)
+        console.log("nbResult", nbResult)
         return { count: nbResult }
       })
       .catch(err => {
@@ -32,6 +32,7 @@ const GetAllQuests = (nav) => {
     return model.Quest.findAll({
         offset: nav.step * nav.current,
         limit: nav.step,
+        order: [["Title", "ASC"]],
         include: [{
             model: model.QuestImage
         }]
@@ -45,6 +46,6 @@ const GetQuestById = (id) => {
 }
 module.exports = {
     GetAllQuests,
-    GetTotalQueries,
+    GetTotalQuest,
     GetQuestById
 }
