@@ -37,7 +37,14 @@ const GetAllQuests = (nav) => {
         }]
     })
 }
+const GetQuestById = (id) => {
+  console.log("******** GetQuestById ********", id)
+  return model.Quest.findOne({
+    where: { Id: id}
+  })
+}
 module.exports = {
     GetAllQuests,
-    GetTotalQueries
+    GetTotalQueries,
+    GetQuestById
 }

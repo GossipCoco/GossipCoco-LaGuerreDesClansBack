@@ -50,6 +50,7 @@ app
   .use(bodyParser.json({ limit: '50mb', extended: true }))
   .use(cors())
   .use('/', Home)
+  .use('/quest', Quest)
   .use('/user', User)
   .use('/character', Character)
   .use('/clan', Clan)
@@ -60,7 +61,6 @@ app
   .use('/api', chatgptRouter)
   .use('/api', imagegenRouter)
   .use('/event', Event)
-  .use('/quest', Quest)
   .use(helmet())
   .use(limiter)
   .use(function (req, res) {
