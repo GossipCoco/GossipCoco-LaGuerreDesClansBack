@@ -2,35 +2,36 @@ const { v4: uuidv4 } = require('uuid');
 const model = require('../Models');
 require('../Models/associations');
 
+const includes = [
+    { model: model.Points },
+    { model: model.Notification },
+    {
+        model: model.UserQuest,
+        include: [{ model: model.Quest }]
+    },
+    {
+        model: model.UserEvent,
+        include: [{
+            model: model.Event
+        }]
+    },
+    {
+        model: model.Role,
+        include: [
+            {
+                model: model.RolePermission,
+                include: [
+                    { model: model.Permission },
+                ],
+            },
+        ],
+    },
+    { model: model.Level },
+]
 
 const GetAllUsers = () => {
     return model.User.findAll({
-        include: [
-            { model: model.Points },
-            { model: model.Notification },
-            {
-                model: model.UserQuest,
-                include: [{ model: model.Quest }]
-            },
-            {
-                model: model.UserEvent,
-                include: [{
-                    model: model.Event
-                }]
-            },
-            {
-                model: model.Role,
-                include: [
-                    {
-                        model: model.RolePermission,
-                        include: [
-                            { model: model.Permission },
-                        ],
-                    },
-                ],
-            },
-            { model: model.Level },
-        ],
+        include: includes,
     });
 };
 
@@ -38,32 +39,7 @@ const GetUserByLogin = (login) => {
     console.log("**** User ****", login);
     return model.User.findOne({
         where: { Login: login },
-        include: [
-            { model: model.Points },
-            { model: model.Notification },
-            {
-                model: model.UserQuest,
-                include: [{ model: model.Quest }]
-            },
-            {
-                model: model.UserEvent,
-                include: [{
-                    model: model.Event
-                }]
-            },
-            {
-                model: model.Role,
-                include: [
-                    {
-                        model: model.RolePermission,
-                        include: [
-                            { model: model.Permission },
-                        ],
-                    },
-                ],
-            },
-            { model: model.Level },
-        ],
+        include: includes,
     });
 };
 const GetUserByEmail = (email) => {
@@ -77,60 +53,14 @@ const GetUserById = (id) => {
     console.log("**** Dashboard ID User ****", id);
     return model.User.findOne({
         where: { Id: id },
-        include: [
-            { model: model.Points },
-            { model: model.Notification },
-            {
-                model: model.UserQuest,
-                include: [{ model: model.Quest }]
-            },
-            {
-                model: model.UserEvent,
-                include: [{
-                    model: model.Event
-                }]
-            },
-            {
-                model: model.Role,
-                include: [
-                    {
-                        model: model.RolePermission,
-                        include: [{ model: model.Permission }],
-                    },
-                ],
-            },
-            { model: model.Level }
-        ],
+        include:includes,
     });
 };
 const GetUserByUsername = (username) => {
     console.log("****GetUserByUsername ID User ****", username);
     return model.User.findOne({
         where: { UserName: username },
-        include: [
-            { model: model.Points },
-            { model: model.Notification },
-            {
-                model: model.UserQuest,
-                include: [{ model: model.Quest }]
-            },
-            {
-                model: model.UserEvent,
-                include: [{
-                    model: model.Event
-                }]
-            },
-            {
-                model: model.Role,
-                include: [
-                    {
-                        model: model.RolePermission,
-                        include: [{ model: model.Permission }],
-                    },
-                ],
-            },
-            { model: model.Level },
-        ],
+        include: includes,
     });
 };
 const UpdateLastDateConnection = (usr) => {

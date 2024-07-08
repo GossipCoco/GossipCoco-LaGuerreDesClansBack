@@ -42,6 +42,7 @@ const Prey = require('./PreyModel')
 const Ennemy = require('./EnnemyModel')
 const Ratings = require('./RatingModel')
 const QuestImage = require('./QuestImage')
+const Landscape = require('./Landscape')
 
 // Exporter les modèles
 const models = {
@@ -87,6 +88,7 @@ const models = {
   Ennemy,
   Ratings,
   QuestImage,
+  Landscape,
   sequelize: connection,
   Sequelize,
   Utils: {

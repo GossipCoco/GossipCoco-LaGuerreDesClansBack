@@ -4,10 +4,8 @@ const Image = require("../controllers/images");
 const router = express.Router();
 
 router
-  .get("/", Image.GetAllImages)
-  .get("/GetAllImagesTable", Image.GetAllImagesTable)
-  .get('/GetAllIllustrations', Image.GetAllIllustrations)
+  .get('/:model', Image.GetAll)
   .put("/upload/:id", Image.Upload)
-  .put("/uploadAvatar/:id", Image.UploadAvatar);
+  .put("/uploadAvatar/:id", Image.UploadAvatar)
 
 module.exports = router;

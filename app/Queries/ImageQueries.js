@@ -33,16 +33,25 @@ const GetAllImagesTable = () => {
         console.log("ERROR: ", err);
       });
   };
-  const GetAllImages = () => {
-    return model.Image.findAll({});
+  // const GetAllImages = () => {
+  //   return model.Image.findAll({});
+  // };
+  // const GetAllIllustrations = () => {
+  //   return model.Illustration.findAll({})
+  // }
+
+  const getAll = (modelName) => {
+    console.log("********** getAll **********  : ", model[modelName])
+    const newModel = model[modelName];
+    console.log("model : ", newModel)
+    if (!newModel) {
+      throw new Error(`Model ${modelName} does not exist.`);
+    }
+    return newModel.findAll({});
   };
-  const GetAllIllustrations = () => {
-    return model.Illustration.findAll({})
-  }
   const queries = {
     GetAllImagesTable,
     UploadUserAvatar,
-    GetAllImages,
-    GetAllIllustrations
+    getAll
   }
   module.exports = queries;

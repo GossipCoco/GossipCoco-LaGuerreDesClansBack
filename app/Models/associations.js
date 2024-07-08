@@ -40,6 +40,7 @@ const {
   UserGame,
   Ratings,
   QuestImage,
+  Landscape,
   sequelize: connection,
   Sequelize,
   Utils: {
@@ -246,6 +247,7 @@ module.exports = {
   Prey,
   Ennemy,
   Ratings,
+  Landscape,
   sequelize: connection,
   Sequelize,
   Utils: {

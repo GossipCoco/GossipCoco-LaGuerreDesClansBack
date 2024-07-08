@@ -6,29 +6,20 @@ const fs = require("fs");
 
 const Image = {};
 
-Image.GetAllImages = (req, res) => {
-  queries
-    .GetAllImages()
-    .then((w) => {
-      res.send({ ob: w, res: true }).status(200);
-    })
-    .catch((err) => {
-      console.log(err);
-      res.send(err).status(500);
-    });
-};
-Image.GetAllImagesTable = (req, res) => {
-  queries
-    .GetAllImagesTable()
-    .then((w) => {
-      res.send({ ob: w, res: true }).status(200);
-    })
-    .catch((err) => {
-      console.log(err);
-      res.send(err).status(500);
-    });
-};
+Image.GetAll = (req, res) => {
 
+  const modelName = req.params.model;  // Le nom du modèle est passé en tant que paramètre de la requête
+  console.log("Image.GetAll : ", modelName)
+  queries
+    .getAll(modelName)
+    .then((results) => {
+      res.send({ ob: results, res: true }).status(200);
+    })
+    .catch((err) => {
+      console.log("getAll : ", err);
+      res.status(500).send(err);
+    });
+};
 Image.Upload = async (req, res) => {
   const id = req.params.id;
   console.log("id: ", id);
