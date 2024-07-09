@@ -3,9 +3,9 @@ const Character = {}
 Character.countAllCharacters = (req, res) => {
     query.countAllCharacters()
         .then(w => {
-            const nbResult = Object.keys(w).length
-
-            res.send({ ob: nbResult, res: true }).status(200)
+            // const nbResult = Object.keys(w).length
+            console.log("w", w)
+            res.send({ ob: w, res: true }).status(200)
         })
         .catch(err => {
             console.log(err)
@@ -13,10 +13,10 @@ Character.countAllCharacters = (req, res) => {
         })
 }
 Character.GetAllCharacters = (req, res) => {
-    console.log(req.body)
+    // console.log(req.body)
     query.GetAllCharacters(req.body.nav)
         .then(w => {
-            console.log("w : ", w)
+            // console.log("w : ", w)
             res.send({ ob: w, res: true }).status(200)
         })
         .catch(err => {
@@ -28,7 +28,7 @@ Character.GetAllCharactersDashboard = (req, res) => {
     console.log(req.body)
     query.GetAllCharactersDashboard(req.body.nav)
         .then(w => {
-            // console.log("------ W -------", w)
+            console.log("------ W -------", w)
             res.send({ ob: w, res: true }).status(200)
         })
         .catch(err => {
@@ -38,12 +38,14 @@ Character.GetAllCharactersDashboard = (req, res) => {
 }
 Character.GetCharacterByName = (req, res) => {
     const id = req.params.id
+    console.log("GetCharacterByName id : ",req.params.id,  id)
     query.GetCharacterByName(id)
         .then(w => {
+            console.log("w : ", w)
             res.send({ ob: w, res: true }).status(200)
         })
         .catch(err => {
-            //console.log(err)
+            console.log("GetCharacterByName id : ",err)
             res.send(err).status(500)
         })
 }

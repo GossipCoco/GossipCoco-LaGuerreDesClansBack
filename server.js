@@ -53,7 +53,6 @@ app
   .use(cors())
   .use('/', Home)
   .use('/quest', Quest)
-  .use('/user', User)
   .use('/character', Character)
   .use('/clan', Clan)
   .use('/grade', Grade)
@@ -63,6 +62,7 @@ app
   .use('/api', chatgptRouter)
   .use('/api', imagegenRouter)
   .use('/event', Event)
+  .use('/user', User)
   .use(helmet())
   .use(limiter)
   .use(function (req, res) {

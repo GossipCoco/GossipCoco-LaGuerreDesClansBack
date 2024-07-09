@@ -47,7 +47,7 @@ const GetAllGames = (nav) => {
     offset: nav.step * nav.current,
     limit: nav.step,
     include: [
-      { model: model.UserGame },
+      // { model: model.UserGame },
       {
         model: model.Fiction,
         order: [["Title", "ASC"]],
@@ -64,7 +64,7 @@ const GetAllGamesByUser = (user, nav) => {
     offset: nav.step * nav.current,
     limit: nav.step,
     include: [
-      { model: model.UserGame },
+  
       {
         model: model.Fiction,
         where: {

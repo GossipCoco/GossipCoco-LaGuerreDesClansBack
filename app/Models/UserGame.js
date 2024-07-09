@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const connection = require('../DataLayer/connectionWithSingleton');
 
-const UserGame = connection.define('UserGame', {
+const UserGame = connection.define('UsersGame', {
   Id: {
     type: DataTypes.STRING,
     primaryKey: true,

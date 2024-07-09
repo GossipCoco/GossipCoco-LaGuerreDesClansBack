@@ -3,17 +3,36 @@ const model = require('../Models');
 require('../Models/associations');
 
 const countAllCharacters = () => {
-    console.log("test countAllCharacters");
-    return model.Character.findAll({});
+    console.log("**** countAllCharacters   *****************");
+    const request = model.Character.findAndCountAll({
+      attributes: ['Id']
+    });
+    const promises = []
+    promises.push(request)
+    return request
+    .then(w => {
+      console.log("1w: ", w)
+      const nbResult = Object.keys(w.rows).length
+      console.log("nbResult", nbResult)
+      return { count: nbResult }
+    })
+    .catch(err => {
+      console.log("ERROR: ", err)
+    })
   };
   const GetAllCharacters = (nav) => {
-    console.log("************GetAllCharacters************", nav)
+    console.log("************ GetAllCharacters ************", nav)
     return model.Character.findAll({
       offset: nav.step * nav.current,
       limit: nav.step,
       order: [["CurrentName", "ASC"]],
       include: [
         { model: model.Grade },
+        {
+          model: model.Clan,
+          include: [{ model: model.Location }],
+          order: [["Id", "ASC"]],
+        },
         {
           model: model.Warrior,  
           include: [
@@ -53,6 +72,11 @@ const countAllCharacters = () => {
       include: [        
         { model: model.Grade },
         {
+          model: model.Clan,
+          include: [{ model: model.Location }],
+          order: [["Id", "ASC"]],
+        },
+        {
           model: model.Warrior,
           include: [
             {
@@ -71,27 +95,32 @@ const countAllCharacters = () => {
 const GetCharacterByName = (name) => {
   console.log("**** GetCharacterByName ****", name);
   return model.Character.findOne({
-    where: { Id: { [model.Utils.Op.like]: name } },
+    where: { Id: { [model.Utils.Op.like]: `%${name}%` } },
     include: [
-      { model: model.CharacterImage },
+      // { model: model.CharacterImage },
       { model: model.Grade },
       {
-        model: model.Warrior,
-        include: [
-          {
-            model: model.Clan,
-            include: [{ model: model.Location }],
-            order: [["Id", "ASC"]],
-          },
-        ],
-        order: [["ClanId", "ASC"]],
+        model: model.Clan,
+        include: [{ model: model.Location }],
+        order: [["Id", "ASC"]],
       },
+      // {
+      //   model: model.Warrior,
+      //   include: [
+      //     {
+      //       model: model.Clan,
+      //       include: [{ model: model.Location }],
+      //       order: [["Id", "ASC"]],
+      //     },
+      //   ],
+      //   order: [["ClanId", "ASC"]],
+      // },
       
-      { model: model.CharacterImage },
-      {
-        model: model.RelationCharacters,
-        include: [{ model: model.TypeRelation }]
-      },
+      // { model: model.CharacterImage },
+      // {
+      //   model: model.RelationCharacters,
+      //   include: [{ model: model.TypeRelation }]
+      // },
     ],
   });
 };
@@ -106,14 +135,18 @@ const GetCharacterByNameSearch = (name) => {
     include: [
       { model: model.Grade },
       {
-        model: model.Warrior,
-        include: [
-          {
-            model: model.Clan,
-            include: [{ model: model.Location }],
-          },
-        ],
+        model: model.Clan,
+        include: [{ model: model.Location }],
       },
+      // {
+      //   model: model.Warrior,
+      //   include: [
+      //     {
+      //       model: model.Clan,
+      //       include: [{ model: model.Location }],
+      //     },
+      //   ],
+      // },
     ],
   });
 };

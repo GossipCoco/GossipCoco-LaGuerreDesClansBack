@@ -75,15 +75,17 @@ Notification.belongsTo(User, { foreignKey: 'UserId' });
 Character.belongsTo(Grade, { foreignKey: "GradeId" });
 Grade.hasMany(Character)
 
+Character.belongsTo(Clan, { foreignKey: "ClanId" })
+Clan.hasMany(Character);
+
 
 Character.belongsTo(Warrior, { foreignKey: "WarriorId" })
-Warrior.hasOne(Character);
+Warrior.hasOne(Character, { foreignKey: "Id" });
 
-
-Warrior.belongsTo(Clan , { foreignKey: "ClanId" });
+Warrior.belongsTo(Clan, { foreignKey: "ClanId" });
 Clan.hasMany(Warrior);
 
-Location.belongsTo(Clan, { foreignKey: "ClanId" });
+Location.belongsTo(Clan,{ foreignKey: "ClanId" });
 Clan.hasMany(Location);
 
 // GAME
