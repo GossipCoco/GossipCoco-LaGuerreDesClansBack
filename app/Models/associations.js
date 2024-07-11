@@ -41,6 +41,7 @@ const {
   Ratings,
   QuestImage,
   Landscape,
+  Background,
   sequelize: connection,
   Sequelize,
   Utils: {
@@ -250,6 +251,7 @@ module.exports = {
   Ennemy,
   Ratings,
   Landscape,
+  Background,
   sequelize: connection,
   Sequelize,
   Utils: {
