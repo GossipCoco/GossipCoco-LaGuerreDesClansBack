@@ -33,7 +33,10 @@ const GetAllQuests = (nav) => {
         offset: nav.step * nav.current,
         limit: nav.step,
         order: [["Title", "ASC"]],
-        include: [{
+        include: [
+          { model: model.QuestParallax
+          },
+          {
             model: model.QuestImage
         }]
     })
@@ -41,7 +44,16 @@ const GetAllQuests = (nav) => {
 const GetQuestById = (id) => {
   console.log("******** GetQuestById ********", id)
   return model.Quest.findOne({
-    where: { Id: id}
+    where: { Id: id},
+    include: [
+      { model: model.QuestParallax, 
+        include: [{
+          model: model.Parallax
+        }]
+      },
+      {
+        model: model.QuestImage
+    }]
   })
 }
 module.exports = {

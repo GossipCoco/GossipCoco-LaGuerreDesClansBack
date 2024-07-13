@@ -53,7 +53,8 @@ const GetAllGames = (nav) => {
         order: [["Title", "ASC"]],
         include: [{
           model: model.Chapter
-        }]
+        }],
+        include: [{ model: model.FictionIllustration}]
       }]
   })
 };
@@ -72,6 +73,7 @@ const GetAllGamesByUser = (user, nav) => {
         },
         order: ['Title'],
         include: [{ model: model.Chapter }],
+        include: [{ model: model.FictionIllustration}]
       },
     ],
   });
@@ -110,6 +112,7 @@ const GetFiveLastGameByUser = (usr) => {
         where: {
           UserId: { [model.Utils.Op.like]: `%${usr}%` },
         },
+        include: [{ model: model.FictionIllustration}]
       }
     ]
   })
@@ -247,7 +250,8 @@ const AddANewCharacterToGameAndFiction = (Id, data) => {
   const request = model.GameCharacter.create(requestFirstGameCharacter)
   promises.push(request)
   return request
-    .then(() => {
+    .then((w) => {
+      console.log(w)
       return Promise.all(promises);
     })
     .catch((err) => {

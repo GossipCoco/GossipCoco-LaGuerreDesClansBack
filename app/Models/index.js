@@ -44,6 +44,8 @@ const Ratings = require('./RatingModel')
 const QuestImage = require('./QuestImage')
 const Landscape = require('./Landscape')
 const Background = require('./BackgroundModel')
+const Parallax = require('./ParallaxModel')
+const QuestParallax = require('./QuestParallaxModel')
 
 // Exporter les modèles
 const models = {
@@ -91,6 +93,8 @@ const models = {
   QuestImage,
   Landscape,
   Background,
+  Parallax,
+  QuestParallax,
   sequelize: connection,
   Sequelize,
   Utils: {

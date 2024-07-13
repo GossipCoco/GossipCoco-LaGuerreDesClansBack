@@ -42,6 +42,8 @@ const {
   QuestImage,
   Landscape,
   Background,
+  Parallax,
+  QuestParallax,
   sequelize: connection,
   Sequelize,
   Utils: {
@@ -149,6 +151,12 @@ Quest.hasMany(UserQuest)
 QuestImage.belongsTo(Quest, { foreignKey: 'QuestId' })
 Quest.hasMany(QuestImage)
 
+QuestParallax.belongsTo(Quest, { foreignKey: 'QuestId' })
+Quest.hasMany(QuestParallax)
+
+QuestParallax.belongsTo(Parallax, { foreignKey: 'ParallaxId' })
+Parallax.hasMany(QuestParallax)
+
 UserEvent.belongsTo(User, { foreignKey: 'UserId' })
 User.hasMany(UserEvent)
 
@@ -251,7 +259,9 @@ module.exports = {
   Ennemy,
   Ratings,
   Landscape,
-  Background,
+  Background,  
+  Parallax,
+  QuestParallax,
   sequelize: connection,
   Sequelize,
   Utils: {
