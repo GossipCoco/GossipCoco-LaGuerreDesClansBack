@@ -3,11 +3,11 @@ const model = require('../Models');
 require('../Models/associations');
 
 const GetAllFictionsByName = (name, nav) => {
-  console.log("**** GetAllFictionsByName ****", name, nav);
+  console.log("**** GetTheFictionByName ****", name, nav);
   console.log(name, nav)
-  return model.Fiction.findAll({
+  return model.Fiction.findOne({
     where: {
-      Id: { [model.Utils.Op.like]: `%${name}%` },
+      Title: { [model.Utils.Op.like]: `%${name}%` },
     },
     include: [
       {
@@ -65,7 +65,7 @@ const GetAChapterByName = (name, nav) => {
       },
       {
         model: model.Fiction,
-        attributes: ['UserId'],
+        attributes: ['UserId', 'Title'],
         include: [
           { model: model.FictionIllustration },
           {

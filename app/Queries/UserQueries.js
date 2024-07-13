@@ -70,6 +70,9 @@ const GetUserByEmail = (email) => {
     console.log("**** User ****", email);
     return model.User.findOne({
         where: { Email: email },
+        include:[{
+            model: model.Role
+        }]
     });
 };
 

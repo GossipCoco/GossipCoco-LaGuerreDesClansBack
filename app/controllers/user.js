@@ -9,7 +9,7 @@ User.Login = (req, res) => {
   const Pwd = req.body.Password
   UserQueries.GetUserByEmail(Email)
     .then(user => {
-      console.log(user)
+      console.log(user.Role)
       // console.log("user controller", user.Password)
       console.log("user controller", req.body.Password)
       if (!user) {
@@ -23,6 +23,7 @@ User.Login = (req, res) => {
         Email: user.Email,
         isSuccess: true,
         tocken: null,
+        role: user.Role.Id,
         expire: config.JWT.expire
       }
       const token = jwt.sign({ id: user.Id }, config.secret, {
