@@ -104,17 +104,17 @@ const GetCharacterByName = (name) => {
         include: [{ model: model.Location }],
         order: [["Id", "ASC"]],
       },
-      // {
-      //   model: model.Warrior,
-      //   include: [
-      //     {
-      //       model: model.Clan,
-      //       include: [{ model: model.Location }],
-      //       order: [["Id", "ASC"]],
-      //     },
-      //   ],
-      //   order: [["ClanId", "ASC"]],
-      // },
+      {
+        model: model.Warrior,
+        include: [
+          {
+            model: model.Clan,
+            include: [{ model: model.Location }],
+            order: [["Id", "ASC"]],
+          },
+        ],
+        order: [["ClanId", "ASC"]],
+      },
       
       // { model: model.CharacterImage },
       // {
@@ -138,15 +138,15 @@ const GetCharacterByNameSearch = (name) => {
         model: model.Clan,
         include: [{ model: model.Location }],
       },
-      // {
-      //   model: model.Warrior,
-      //   include: [
-      //     {
-      //       model: model.Clan,
-      //       include: [{ model: model.Location }],
-      //     },
-      //   ],
-      // },
+      {
+        model: model.Warrior,
+        include: [
+          {
+            model: model.Clan,
+            include: [{ model: model.Location }],
+          },
+        ],
+      },
     ],
   });
 };

@@ -137,89 +137,37 @@ const CreateANewGame = (UserId, data, imagePath) => {
     DateCreation: date,
     GameTypeId: 'Fiction'
   };
-  const requestNewFiction = {
-    Id: FictionId, // Nouvelle clé primaire pour Fiction
-    Title: data.Title,
-    Summary: data.Summary,
-    Image: imagePath,  // Use the filename from multer
-    GameId: gameId,
-    DateCreation: date,
-    UserId: UserId
-  };
   const firstRequest = model.Game.create(requestNewGame);
   promises.push(firstRequest);
-  return firstRequest
+  return firstRequest  
     .then(() => {
-      const requestUserGame = {
-        Id: uuidv4(), // Nouvelle clé primaire pour UsersGame
+      const requestNewFiction = {
+        Id: FictionId, // Nouvelle clé primaire pour Fiction
+        Title: data.Title,
+        Summary: data.Summary,
+        Image: imagePath,  // Use the filename from multer
         GameId: gameId,
+        DateCreation: date,
         UserId: UserId
       };
-      const requestFirstGameCharacter = {
-        Id: uuidv4(), // Nouvelle clé primaire pour GameCharacter
-        GameId: gameId,
-        CharacterId: data.FirstCharacterId
-      };
-      const requestSecondGameCharacter = {
-        Id: uuidv4(), // Nouvelle clé primaire pour GameCharacter
-        GameId: gameId,
-        CharacterId: data.SecondCharacterId
-      };
-      const IllustrationRequest = {
-        Id: imagePath,
-        DateCreation: date
-      }
-      const secondRequest = model.Fiction.create(requestNewFiction);
-      const thirdRequest = model.UserGame.create(requestUserGame);
-      const fourRequest = model.GameCharacter.create(requestFirstGameCharacter)
-      const fiveRequest = model.GameCharacter.create(requestSecondGameCharacter)
-      const sevenRequest = model.Illustration.create(IllustrationRequest)
+      const secondRequest = model.Fiction.create(requestNewFiction);      
       promises.push(secondRequest);
       return secondRequest
         .then(() => {
+          const requestUserGame = {
+            Id: uuidv4(), // Nouvelle clé primaire pour UsersGame
+            GameId: gameId,
+            UserId: UserId
+          };
+          const thirdRequest = model.UserGame.create(requestUserGame);
           promises.push(thirdRequest);
           return thirdRequest
             .then(() => {
-              promises.push(fourRequest)
-              return fourRequest
-                .then(() => {
-                  promises.push(fiveRequest)
-                  return fiveRequest
-                    .then(() => {
-                      promises.push(sevenRequest)
-                      return sevenRequest
-                        .then(() => {
-                          Promise.all(promises)
-                          // const IllustrationFictionRequest = {
-                          //   Id: uuidv4(), 
-                          //   FictionId: FictionId,
-                          //   IllustrationId: imagePath
-                          // }                          
-                          // const requestIllustration = {
-                          //   Id: imagePath,
-                          //   DateCreation: date
-                          // }
-                          // const eightRequest = model.FictionIllustration.create(IllustrationFictionRequest)
-                          // const _RequestIllustratio = model.Illustration.create(requestIllustration)
-                          // promises.push(_RequestIllustratio, eightRequest)
-                          // return _RequestIllustratio
-                          //   .then(() => {
-                          //     Promise.all(promises)
-                          //   })
-                          //   .catch((err) => {
-                          //     console.log(err);
-                          //     return Promise.reject(err);
-                          //   })
-                        })
-                        .catch((err) => {
-                          console.log(err);
-                          return Promise.reject(err);
-                        });
-                    })
-                    .catch((err) => {
-                      console.log(err);
-                      return Promise.reject(err);
-                    });
+              const sevenRequest = model.Illustration.create(IllustrationRequest)
+              promises.push(secondRequest)
+              return sevenRequest
+              .then(() => {
+                Promise.all(promises)
                 })
                 .catch((err) => {
                   console.log(err);
