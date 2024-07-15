@@ -6,7 +6,7 @@ const {
   Clan,
   Character,
   Chapter,
-  Comment,
+  Comments,
   ExistingCharacter,
   Fiction,
   Game,
@@ -38,7 +38,7 @@ const {
   Prey,
   Ennemy,
   UserGame,
-  Ratings,
+  Rating,
   QuestImage,
   Landscape,
   Background,
@@ -102,6 +102,9 @@ Game.hasMany(Fiction)
 Fiction.belongsTo(User, { foreignKey: "UserId" });
 User.hasMany(Fiction);
 
+Comments.belongsTo(Fiction, { foreignKey: 'FictionId' });
+Fiction.hasMany(Comments);
+
 
 //CHAPTER
 
@@ -112,16 +115,11 @@ Chapter.belongsTo(Chapter, { foreignKey: "Id" });
 Chapter.hasOne(Chapter, { foreignKey: { name: "NextChapterId" } });
 
 
-//COMMENT
+//Comments
 
-Comment.belongsTo(User, { foreignKey: "UserId" })
-User.hasMany(Comment, { foreignKey: "UserId" });
+Comments.belongsTo(User, { foreignKey: "UserId" })
+User.hasMany(Comments);
 
-Comment.belongsTo(Fiction, { foreignKey: "FictionId" })
-Fiction.hasMany(Comment, { foreignKey: "FictionId" });
-
-Comment.belongsTo(Chapter, { foreignKey: "ChapterId" })
-Chapter.hasMany(Comment, { foreignKey: "FictionId" });
 
 //OTHERS
 
@@ -134,11 +132,11 @@ OtherAnimal.hasMany(Prey);
 Ennemy.belongsTo(OtherAnimal, { foreignKey: "Id" });
 OtherAnimal.hasMany(Ennemy);
 
-Ratings.belongsTo(Fiction, { foreignKey: 'FictionId' });
-Fiction.hasMany(Ratings);
+Rating.belongsTo(Fiction, { foreignKey: 'FictionId' });
+Fiction.hasMany(Rating);
 
-Ratings.belongsTo(User, { foreignKey: 'UserId' });
-User.hasMany(Ratings);
+Rating.belongsTo(User, { foreignKey: 'UserId' });
+User.hasMany(Rating);
 
 //ASSOCIATION
 
@@ -225,7 +223,7 @@ module.exports = {
   Clan,
   Character,
   Chapter,
-  Comment,
+  Comments,
   ExistingCharacter,
   Fiction,
   Game,
@@ -257,7 +255,7 @@ module.exports = {
   UserEvent,
   Prey,
   Ennemy,
-  Ratings,
+  Rating,
   Landscape,
   Background,  
   Parallax,

@@ -38,7 +38,6 @@ Fiction.CreateANewChapter = (req, res) => {
 }
 
 Fiction.GetLastChapterOfAFiction = (req, res) => {
-  console.log(req.params.id)
   queries.GetLastChapterOfAFiction(req.params.id)
   .then((w) => {
     res.send({ ob: w, res: true, message: "Chapter created successfully" }).status(200);
@@ -87,7 +86,7 @@ Fiction.GetFiveLastChapByUser = (req, res) => {
 }
 Fiction.AddRating = (req, res) => {
   const { Id, FictionId, Rating, UserId,  DateRated} = req.body;
-  console.log()
+
   queries.AddRating(req.params.id, { Id, FictionId, UserId, Rating,  DateRated})
   .then((w) => {
     // console.log("CountTotalWordByUserV2", w)
@@ -97,5 +96,31 @@ Fiction.AddRating = (req, res) => {
     console.log("CountTotalWordByUserV2", err);
     res.send(err).status(500);
   });
+}
+Fiction.CreateCommentForAFiction = (req, res) => {
+  const {Id, Content, UserId, FictionId} = req.body
+  queries.CreateCommentForAFiction(req.params.id,{Id, Content, UserId, FictionId})
+  .then((w) => {
+    res.send({ ob: w, res: true, message: "CreateCommentForAFiction" }).status(200);
+  })
+  .catch((err) => {
+    console.log("CreateCommentForAFiction", err);
+    res.send(err).status(500);
+  });
+}
+Fiction.GetAllCommentsByFiction = (req, res) => {
+  const nav = req.body
+  const id = req.params.id
+  console.log(id, nav)
+  queries.GetAllCommentsByFiction(id, nav)
+  .then((w) => {
+    console.log(w)
+    res.send({ ob: w, res: true, message: "GetAllCommentsByFiction" }).status(200);
+  })
+  .catch((err) => {
+    console.log("GetAllCommentsByFiction", err);
+    res.send(err).status(500);
+  });
+
 }
 module.exports = Fiction

@@ -9,7 +9,8 @@ const GetAllFictionsByName = (name, nav) => {
     where: {
       Title: { [model.Utils.Op.like]: `%${name}%` },
     },
-    include: [
+    include:[ { model: model.Comments}],
+    include: [      
       {
         model: model.User,
         attributes: ['Id', 'UserName']
@@ -38,7 +39,8 @@ const GetAllFictionsByName = (name, nav) => {
             ],
           },
         ],
-      },
+      },      
+     
     ],
   });
 };
@@ -53,6 +55,7 @@ const GetAChapterByName = (name, nav) => {
       ]
     },
     include: [
+      // { model: model.Comment},
       {
         model: model.ChapterIllustration,
         include: [{ model: model.Illustration }]
@@ -67,6 +70,7 @@ const GetAChapterByName = (name, nav) => {
         model: model.Fiction,
         attributes: ['UserId', 'Title'],
         include: [
+          // { model: model.Comment},
           { model: model.FictionIllustration },
           {
             model: model.User,
@@ -75,44 +79,6 @@ const GetAChapterByName = (name, nav) => {
       }]
   });
 };
-
-const CreateANewChapter = (FictionId, data, imagePath) => {
-  console.log("**** CreateANewChapter ****", FictionId, data, imagePath);
-  const date = new Date()
-  const promises = []
-  const newChapter = {
-    Id: data.Id,
-    Title: data.Title,
-    Content: data.Content,
-    Image: imagePath,
-    FictionId: FictionId,
-    NextChapterId: null,
-    DateCreation: date,
-    NumberChapter: data.NumberChapter,
-  }
-  const precedentChapter = {
-    NextChapterId: data.Id
-  }
-  const firstRequest = model.Chapter.create(newChapter)
-  promises.push(firstRequest)
-  return firstRequest
-    .then((response) => {
-      if (data.NumberChapter === 1) {
-        return Promise.all(promises);
-      } else {
-        const secondRequest = model.Chapter.update(precedentChapter, { where: { Id: data.PrecedentChapterId } })
-        promises.push(secondRequest)
-        return secondRequest
-          .then((response) => {
-            return Promise.all(promises);
-          })
-      }
-    })
-    .catch((err) => {
-      console.log(err);
-      return Promise.reject(err);
-    });
-}
 
 const CountTotalWordBuUser = (usr) => {
   console.log("**** CountTotalWordsByUser ****", usr);
@@ -161,7 +127,9 @@ const GetLastChapterOfAFiction = (FictionId) => {
       FictionId: FictionId,
       NextChapterId: null
     },
-    include: [{
+    include: [
+      // { model: model.Comment},
+      {
       model: model.ChapterLocation,
       include: [{
         model: model.Location
@@ -183,12 +151,24 @@ const GetFiveLastChapByUser = (usr) => {
     }]
   })
 }
-
+const GetAllCommentsByFiction = (id, nav) => {
+  return model.Comments.findAll({
+    offset: nav.step * nav.current,
+    limit: nav.step,
+    include:[{
+      model: model.Fiction,
+      where: 
+      { Title: id }
+    }]
+    
+  
+  })
+}
 const AddRating = (id, data) => {
   console.log("**** AddRating ****", id, data);
   const promises = []
-  const request = model.Ratings.create({
-    Id: data.Id,
+  const request = model.Rating.create({
+    Id: uuidv4(),
     FictionId: data.FictionId,
     UserId: data.UserId,
     Rating: data.Rating,
@@ -197,15 +177,15 @@ const AddRating = (id, data) => {
   promises.push(request)
   return request
     .then((w) => {
-      const newRequestFind = model.Ratings.findAll({ where: { FictionId: data.FictionId } })
+      const newRequestFind = model.Rating.findAll({ where: { FictionId: data.FictionId } })
       promises.push(newRequestFind)
       return newRequestFind
-        .then((ratings) => {
+        .then((rating) => {
           // Vérifier si des notes ont été trouvées
-          if (ratings.length > 0) {
+          if (rating.length > 0) {
             // Calculer la note moyenne
-            const totalRating = ratings.reduce((acc, curr) => acc + curr.Rating, 0);
-            const averageRating = totalRating / ratings.length;
+            const totalRating = rating.reduce((acc, curr) => acc + curr.Rating, 0);
+            const averageRating = totalRating / rating.length;
             // Mettre à jour la fiction avec la nouvelle note moyenne
             return model.Fiction.update({ AverageRating: averageRating }, { where: { Id: data.FictionId } });
           } else {
@@ -221,6 +201,66 @@ const AddRating = (id, data) => {
       return Promise.reject(err);
     });
 }
+const CreateCommentForAFiction = (id, data) => {
+  console.log("**** CreateCommentForAFiction ****", id, data);
+  const promises = []
+  const comment = model.Comments.create({
+    Id: uuidv4(),
+    Content: data.Content,
+    DateCreation: new Date(),
+    UserId: data.UserId,
+    FictionId: data.FictionId,
+    ChapterId: NULL
+  })
+  promises.push(comment)
+  return comment
+    .then((w) =>{
+      return Promise.all(promises);
+    })
+    .catch((err) => {
+      console.log(err);
+      return Promise.reject(err);
+    });
+}
+
+const CreateANewChapter = (FictionId, data, imagePath) => {
+  console.log("**** CreateANewChapter ****", FictionId, data, imagePath);
+  const date = new Date()
+  const promises = []
+  const newChapter = {
+    Id: data.Id,
+    Title: data.Title,
+    Content: data.Content,
+    Image: imagePath,
+    FictionId: FictionId,
+    NextChapterId: null,
+    DateCreation: date,
+    NumberChapter: data.NumberChapter,
+  }
+  const precedentChapter = {
+    NextChapterId: data.Id
+  }
+  const firstRequest = model.Chapter.create(newChapter)
+  promises.push(firstRequest)
+  return firstRequest
+    .then((response) => {
+      if (data.NumberChapter === 1) {
+        return Promise.all(promises);
+      } else {
+        const secondRequest = model.Chapter.update(precedentChapter, { where: { Id: data.PrecedentChapterId } })
+        promises.push(secondRequest)
+        return secondRequest
+          .then((response) => {
+            return Promise.all(promises);
+          })
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+      return Promise.reject(err);
+    });
+}
+
 const queries = {
   CountTotalWordBuUser,
   CountTotalWordByUserV2,
@@ -229,7 +269,9 @@ const queries = {
   GetLastChapterOfAFiction,
   GetFiveLastChapByUser,
   CreateANewChapter,
-  AddRating
+  AddRating,
+  CreateCommentForAFiction,
+  GetAllCommentsByFiction
 };
 
 module.exports = queries;

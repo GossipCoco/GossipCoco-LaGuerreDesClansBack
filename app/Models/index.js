@@ -8,7 +8,7 @@ const Battle = require('./BattleModel');
 const Clan = require('./ClanModel');
 const Character = require('./CharacterModel');
 const Chapter = require('./ChapterModel'); // Assurez-vous que ce modèle est correctement défini
-const Comment = require('./CommentModel');
+const Comments = require('./CommentModel');
 const ExistingCharacter = require('./ExistingCharacterModel');
 const Fiction = require('./FictionModel');
 const Game = require('./GameModel');
@@ -40,7 +40,7 @@ const Event = require('./EventModel')
 const UserEvent = require('./UserEventModel')
 const Prey = require('./PreyModel')
 const Ennemy = require('./EnnemyModel')
-const Ratings = require('./RatingModel')
+const Rating = require('./RatingModel')
 const QuestImage = require('./QuestImage')
 const Landscape = require('./Landscape')
 const Background = require('./BackgroundModel')
@@ -56,7 +56,7 @@ const models = {
   Clan,
   Character,
   Chapter,
-  Comment,
+  Comments,
   ExistingCharacter,
   Fiction,
   Game,
@@ -89,7 +89,7 @@ const models = {
   UserEvent,
   Prey,
   Ennemy,
-  Ratings,
+  Rating,
   QuestImage,
   Landscape,
   Background,

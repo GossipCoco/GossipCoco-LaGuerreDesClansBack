@@ -17,6 +17,12 @@ module.exports = {
             requestTimeout: 30000 // 30 secondes
           }
         },
+        pool: {
+          max: 5,
+          min: 0,
+          acquire: 30000,
+          idle: 10000
+        },
         options: {
           instanceName: 'sqlexpress'
         }

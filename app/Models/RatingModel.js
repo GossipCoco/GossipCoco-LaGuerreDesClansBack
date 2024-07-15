@@ -2,8 +2,8 @@ const { DataTypes, sequelize } = require('sequelize');
 const connection = require('../DataLayer/connectionWithSingleton');
 
 
-const Ratings = connection.define(
-    "Ratings",
+const Rating = connection.define(
+    "Rating",
     {
       Id: {
         type: DataTypes.STRING,
@@ -35,4 +35,4 @@ const Ratings = connection.define(
     });
     
   
-  module.exports = Ratings
+  module.exports = Rating
