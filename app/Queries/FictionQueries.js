@@ -153,15 +153,19 @@ const GetFiveLastChapByUser = (usr) => {
 }
 const GetAllCommentsByFiction = (id, nav) => {
   return model.Comments.findAll({
-    offset: nav.step * nav.current,
-    limit: nav.step,
-    include:[{
+    // offset: nav.step * nav.current,
+    // limit: nav.step,
+    include:[
+      {
+        model: model.User,
+        attributes:['Id', 'avatar', 'LastName', 'FirstName']
+      },
+      {
       model: model.Fiction,
+      
       where: 
       { Title: id }
-    }]
-    
-  
+    }],
   })
 }
 const AddRating = (id, data) => {
