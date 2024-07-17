@@ -32,7 +32,7 @@ const GetAllQuests = (nav) => {
     return model.Quest.findAll({
         offset: nav.step * nav.current,
         limit: nav.step,
-        order: [["Title", "ASC"]],
+        order: [["Id", "ASC"]],
         include: [
           { model: model.QuestParallax
           },
