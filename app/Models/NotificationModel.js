@@ -1,6 +1,6 @@
 const { DataTypes } = require('sequelize');
 const connection = require('../DataLayer/connectionWithSingleton');
-
+const functions = require ('./Function')
 const Notification = connection.define('Notification', {
     Id: {
       type: DataTypes.STRING,
@@ -19,8 +19,8 @@ const Notification = connection.define('Notification', {
       allowNull: false,
     },
     DateCreated: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
+      type: 'DATETIME',
+      defaultValue: new Date(functions.toDateTime(Date.now())).toISOString()
     },
     Read: {
       type: DataTypes.BOOLEAN,

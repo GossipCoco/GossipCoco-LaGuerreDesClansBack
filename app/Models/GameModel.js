@@ -1,5 +1,6 @@
 const { DataTypes } = require('sequelize');
 const connection = require('../DataLayer/connectionWithSingleton');
+const functions = require ('./Function')
 const Game = connection.define(
     "Game",
     {
@@ -8,7 +9,8 @@ const Game = connection.define(
         primaryKey: true,
       },
       DateCreation: {
-        type: DataTypes.DATE,
+        type: 'DATETIME',
+        defaultValue: new Date(functions.toDateTime(Date.now())).toISOString()
       },
     },
     { freezeTableName: true, timestamps: false }

@@ -1,7 +1,7 @@
 const { DataTypes, sequelize, Op } = require("sequelize");
 const Sequelize = require('sequelize');
 const connection = require('../DataLayer/connectionWithSingleton');
-
+const functions = require ('./Function')
 const User = connection.define('User', {
   Id: {
     type: DataTypes.STRING,
@@ -29,16 +29,19 @@ const User = connection.define('User', {
     type: DataTypes.STRING,
   },
   Birthday: {
-    type: DataTypes.DATE,
-  },
+    type: 'DATETIME',
+    defaultValue: new Date(functions.toDateTime(Date.now())).toISOString()},
   Inscription: {
-    type: DataTypes.DATE,
+    type: 'DATETIME',
+    defaultValue: new Date(functions.toDateTime(Date.now())).toISOString()
   },
   LastConnexion: {
-    type: DataTypes.DATE,
+    type: 'DATETIME',
+    defaultValue: new Date(functions.toDateTime(Date.now())).toISOString()
   },
   Description: {
-    type: DataTypes.TEXT,
+    type: 'DATETIME',
+    defaultValue: new Date(functions.toDateTime(Date.now())).toISOString()
   },
   Biography: {
     type: DataTypes.TEXT,

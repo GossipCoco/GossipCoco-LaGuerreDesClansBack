@@ -28,7 +28,6 @@ Clan.GetClanById = (req, res) => {
 }
 Clan.GetClanByNameClan = (req, res) => {
   const id = req.params.name
-  console.log(id)
   queries.GetClanByNameClan(id)
     .then(w => {
       res.send({ ob: w, res: true }).status(200)
@@ -42,7 +41,6 @@ Clan.GetAllLocations = (req, res) => {
   console.log("GetAllLocations")
   queries.GetAllLocations()
     .then(w => {
-      console.log(w)
       res.send({ ob: w, res: true }).status(200)
     })
     .catch(err => {

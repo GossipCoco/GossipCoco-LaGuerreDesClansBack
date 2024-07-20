@@ -1,6 +1,6 @@
 const { DataTypes } = require('sequelize');
 const connection = require('../DataLayer/connectionWithSingleton');
-
+const functions = require ('./Function')
 const UserEvent = connection.define('UserEvent', {
     Id: {
       type: DataTypes.STRING,
@@ -27,7 +27,8 @@ const UserEvent = connection.define('UserEvent', {
       defaultValue: false,
     },
     DateParticipated: {
-      type: DataTypes.DATE,
+      type: 'DATETIME',
+      defaultValue: new Date(functions.toDateTime(Date.now())).toISOString()
     }
   }, {
     freezeTableName: true,

@@ -81,8 +81,7 @@ Game.GetAllLastFiveGames = (req, res) => {
     // console.log(result)
     res.status(200).send({ message: "Game created successfully", data: w });
   })
-  .catch((err) => {
-   
+  .catch((err) => {   
     res.status(500).send(err);
   });
 }

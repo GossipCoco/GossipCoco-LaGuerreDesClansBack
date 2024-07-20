@@ -1,6 +1,6 @@
 const { DataTypes } = require('sequelize');
 const connection = require('../DataLayer/connectionWithSingleton');
-
+const functions = require ('./Function')
 const Fiction = connection.define(
   "Fiction",
   {
@@ -18,7 +18,8 @@ const Fiction = connection.define(
       type: DataTypes.STRING,
     },
     DateCreation: {
-      type: DataTypes.DATE,
+      type: 'DATETIME',
+        defaultValue: new Date(functions.toDateTime(Date.now())).toISOString()
     },
     AverageRating: {
       type: DataTypes.FLOAT,

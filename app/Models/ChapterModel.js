@@ -1,5 +1,8 @@
 const { DataTypes } = require('sequelize');
 const connection = require('../DataLayer/connectionWithSingleton');
+const functions = require ('./Function')
+
+
 
 const Chapter = connection.define(
     "Chapter",
@@ -10,21 +13,28 @@ const Chapter = connection.define(
       },
       Title: {
         type: DataTypes.STRING,
+        allowNull: true,
       },
       Content: {
         type: DataTypes.TEXT,
+        allowNull: true,
       },
       Image: {
         type: DataTypes.STRING,
+        allowNull: true,
       },
       DateCreation: {
-        type: DataTypes.DATE,
+        type: 'DATETIME',
+        allowNull: true,
+        defaultValue: new Date(functions.toDateTime(Date.now())).toISOString()
       },
       NumberChapter: {
-        type: DataTypes.INTEGER
+        type: DataTypes.INTEGER,
+        allowNull: true,
       },
       NbWords: {
-        type: DataTypes.INTEGER
+        type: DataTypes.INTEGER,
+        allowNull: true,
       },
     },
     { freezeTableName: true, timestamps: false }

@@ -3,15 +3,12 @@ const config = require("../config/auth.config.js");
 const UserQueries = require('../Queries/UserQueries.js')
 const User = {};
 User.Login = (req, res) => {
-  // console.log('req body', req.body)
+
   const { Email, password } = req.body;
-  console.log(req.body)
   const Pwd = req.body.Password
   UserQueries.GetUserByEmail(Email)
     .then(user => {
-      console.log(user.Role)
       // console.log("user controller", user.Password)
-      console.log("user controller", req.body.Password)
       if (!user) {
         return res.status(404).send({ message: 'User Not Found.' });
       }
@@ -49,7 +46,6 @@ User.Login = (req, res) => {
 User.GetAllUsers = (req, res) => {
   UserQueries.GetAllUsers()
     .then(w => {
-      console.log('w.User', w)
       res.send({ ob: w, res: true }).status(200)
     })
     .catch(err => {

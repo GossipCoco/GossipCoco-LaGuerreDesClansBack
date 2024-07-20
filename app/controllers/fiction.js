@@ -111,7 +111,6 @@ Fiction.CreateCommentForAFiction = (req, res) => {
 Fiction.GetAllCommentsByFiction = (req, res) => {
   const nav = req.body
   const id = req.params.id
-  console.log(id, nav)
   queries.GetAllCommentsByFiction(id, nav)
   .then((w) => {
     console.log(w)

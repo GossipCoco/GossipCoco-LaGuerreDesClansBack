@@ -20,8 +20,7 @@ const SocketIOController = (server, options) => {
         // .catch(err => {
         //     console.log(err)
         //     res.send(err).status(500)
-        // })
-           
+        // })           
     })
     io.on('disconnect', socket => {
         console.log('Disconnect')

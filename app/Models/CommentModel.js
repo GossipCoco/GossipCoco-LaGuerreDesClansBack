@@ -1,5 +1,6 @@
 const { DataTypes } = require('sequelize');
 const connection = require('../DataLayer/connectionWithSingleton');
+const functions = require ('./Function')
 
 const Comments = connection.define(
     "Comments",
@@ -10,12 +11,15 @@ const Comments = connection.define(
       },    
       Content: {
         type: DataTypes.TEXT,
+        allowNull: true,
       },    
       DateCreation: {
-        type: DataTypes.DATE,
+        type: 'DATETIME',
+        defaultValue: new Date(functions.toDateTime(Date.now())).toISOString()
       },
       updatedAt:{
-        type: DataTypes.DATE,
+        type: 'DATETIME',
+        defaultValue: new Date(functions.toDateTime(Date.now())).toISOString()
       },
       UserId: {
         type: DataTypes.STRING,

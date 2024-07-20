@@ -24,7 +24,6 @@ Quest.GetAllQuests = (req, res) => {
     })
 }
 Quest.GetQuestById = (req, res) => {
-  console.log(req.params.id)
   queries.GetQuestById(req.params.id)
     .then(w => {
       res.send({ ob: w, res: true }).status(200)

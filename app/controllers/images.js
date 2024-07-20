@@ -7,7 +7,6 @@ const fs = require("fs");
 const Image = {};
 
 Image.GetAll = (req, res) => {
-
   const modelName = req.params.model;  // Le nom du modèle est passé en tant que paramètre de la requête
   console.log("Image.GetAll : ", modelName)
   queries
@@ -61,7 +60,6 @@ Image.UploadAvatar = async (req, res) => {
     if (req.file == undefined) {
       return res.status(400).send({ message: "Please upload a file!" });
     }
-
     queries
       .UploadUserAvatar(req.file.originalname, id)
       .then((w) => {
@@ -75,7 +73,6 @@ Image.UploadAvatar = async (req, res) => {
       });
   } catch (err) {
     console.log(err);
-
     if (err.code == "LIMIT_FILE_SIZE") {
       return res.status(500).send({
         message: "File size cannot be larger than 2MB!",
@@ -86,10 +83,9 @@ Image.UploadAvatar = async (req, res) => {
     });
   }
 };
-  
-  Image.GetAllIllustrations = (req, res) => {
-  queries
-  .GetAllIllustrations()
+
+Image.GetAllIllustrations = (req, res) => {
+  queries.GetAllIllustrations()
   .then((w) => {
     res.send({ ob: w, res: true }).status(200);
   })

@@ -15,7 +15,6 @@ Event.GetAllEvents = (req, res) => {
     });
 };
 Event.GetPointParId = (req, res ) => {
-  console.log(req.body)
   queries
     .GetPointParId(req.params.id, req.body)
     .then((w) => {

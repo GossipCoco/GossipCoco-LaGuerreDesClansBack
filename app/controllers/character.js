@@ -28,7 +28,6 @@ Character.GetAllCharactersDashboard = (req, res) => {
     console.log(req.body)
     query.GetAllCharactersDashboard(req.body.nav)
         .then(w => {
-            console.log("------ W -------", w)
             res.send({ ob: w, res: true }).status(200)
         })
         .catch(err => {
@@ -41,7 +40,6 @@ Character.GetCharacterByName = (req, res) => {
     console.log("GetCharacterByName id : ",req.params.id,  id)
     query.GetCharacterByName(id)
         .then(w => {
-            console.log("w : ", w)
             res.send({ ob: w, res: true }).status(200)
         })
         .catch(err => {
@@ -51,7 +49,6 @@ Character.GetCharacterByName = (req, res) => {
 }
 Character.GetCharacterByNameSearch = (req, res) => {
     const id = req.params.name
-    //console.log(id)
     query.GetCharacterByNameSearch(id)
         .then(w => {
             res.send({ ob: w, res: true }).status(200)

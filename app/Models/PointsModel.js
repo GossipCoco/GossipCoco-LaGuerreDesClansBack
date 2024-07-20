@@ -1,5 +1,6 @@
 const { DataTypes } = require('sequelize');
 const connection = require('../DataLayer/connectionWithSingleton');
+const functions = require ('./Function')
 const Points = connection.define('Points', {
     Id: {
       type: DataTypes.STRING,
@@ -18,8 +19,8 @@ const Points = connection.define('Points', {
       defaultValue: 0,
     },
     DateEarned: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
+      type: 'DATETIME',
+      defaultValue: new Date(functions.toDateTime(Date.now())).toISOString()
     }
   }, {
     freezeTableName: true,

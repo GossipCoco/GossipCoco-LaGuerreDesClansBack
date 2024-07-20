@@ -1,6 +1,6 @@
 const { DataTypes } = require('sequelize');
 const connection = require('../DataLayer/connectionWithSingleton');
-
+const functions = require('./Function')
 const Event = connection.define('Event', {
     Id: {
       type: DataTypes.STRING,
@@ -15,12 +15,12 @@ const Event = connection.define('Event', {
       allowNull: false,
     },
     StartDate: {
-      type: DataTypes.DATE,
-      allowNull: false,
+      type: 'DATETIME',
+      defaultValue: new Date(functions.toDateTime(Date.now())).toISOString()
     },
     EndDate: {
-      type: DataTypes.DATE,
-      allowNull: false,
+      type: 'DATETIME',
+      defaultValue: new Date(functions.toDateTime(Date.now())).toISOString()
     }
   }, {
     freezeTableName: true,
