@@ -11,7 +11,6 @@ const countAllCharacters = () => {
     promises.push(request)
     return request
     .then(w => {
-      console.log("1w: ", w)
       const nbResult = Object.keys(w.rows).length
       console.log("nbResult", nbResult)
       return { count: nbResult }
@@ -185,7 +184,6 @@ const CreateANewCharacter = (data) => {
         Image: data.Image.name,
         ClanId: data.Clan,
       };
-      console.log(Warrior);
       const WarriorCreated = model.Warrior.create(Warrior)
       promises.push(WarriorCreated)
       return WarriorCreated
@@ -194,12 +192,12 @@ const CreateANewCharacter = (data) => {
         }
         ).catch((err) => {
           console.log(err)
-          //res.send(err).status(500);
+          res.send(err).status(500);
         });
     })
     .catch((err) => {
       console.log(err)
-      //res.send(err).status(500);
+      res.send(err).status(500);
     });
 };
   module.exports = {

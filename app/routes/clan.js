@@ -10,5 +10,7 @@ router
 .get('/:id', Clan.GetClanById)
 .get('/search/:name', Clan.GetClanById)
 .get('/Location/GetAllLocations', Clan.GetAllLocations)
+.get('/Location/:id', Clan.GetLocationById)
+
 
 module.exports = router

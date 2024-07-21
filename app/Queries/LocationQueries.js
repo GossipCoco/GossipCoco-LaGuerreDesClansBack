@@ -54,12 +54,18 @@ const GetAllClans = () => {
       ],
     });
   };
-  
-  
-  
   const GetAllLocations = () => {
     console.log("**** GetAllLocations ****");
     return model.Location.findAll({})
+  }
+  const GetLocationById = (id) => {
+    console.log("**** GetLocationById ****", id);
+    console.log()
+    return model.Location.findOne({
+      where: {
+         Id: { [model.Utils.Op.like]: `%${id}%` } 
+      }
+    })
   }
   
   
@@ -67,5 +73,6 @@ module.exports = {
     GetAllClans,
     GetClanById,
     GetClanByNameClan,
-    GetAllLocations
+    GetAllLocations,
+    GetLocationById
 }
