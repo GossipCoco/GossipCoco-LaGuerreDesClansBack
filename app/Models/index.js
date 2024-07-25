@@ -46,6 +46,7 @@ const Landscape = require('./Landscape')
 const Background = require('./BackgroundModel')
 const Parallax = require('./ParallaxModel')
 const QuestParallax = require('./QuestParallaxModel')
+const Faq = require('./FaqModel')
 
 // Exporter les modèles
 const models = {
@@ -95,6 +96,7 @@ const models = {
   Background,
   Parallax,
   QuestParallax,
+  Faq,
   sequelize: connection,
   Sequelize,
   Utils: {

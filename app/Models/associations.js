@@ -44,6 +44,7 @@ const {
   Background,
   Parallax,
   QuestParallax,
+  Faq,
   sequelize: connection,
   Sequelize,
   Utils: {
@@ -260,6 +261,7 @@ module.exports = {
   Background,  
   Parallax,
   QuestParallax,
+  Faq,
   sequelize: connection,
   Sequelize,
   Utils: {

@@ -1,9 +1,12 @@
 const { v4: uuidv4 } = require('uuid');
 const model = require('../Models');
 require('../Models/associations');
-const GetAllEvents = () => {
-    console.log("**** GetAllEvents ****");
-    return model.Event.findAll({})
+const GetAllEvents = (nav) => {
+    console.log("**** GetAllEvents ****", nav);
+    return model.Event.findAll({
+      offset: nav.step * nav.current,
+      limit: nav.step,
+    })
   }
   const GetPointParId = (id, data) => {
     console.log("**** GetPointParId ****", id, data);
@@ -12,7 +15,7 @@ const GetAllEvents = () => {
       Id: uuidv4(),
       UserId: id,
       Points: data.points,
-      DateEarned: new Date()
+      DateEarned: new Date().toISOString()
     });
     promises.push(createPoints);
     return createPoints

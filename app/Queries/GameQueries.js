@@ -96,7 +96,7 @@ const GetAllLastFiveGames = (nav) => {
 
 const GetFiveLastGameByUser = (usr) => {
   console.log("**** GetFiveLastGameByUser ****", usr);
-  console.log(new Date(new Date() - 24 * 60 * 60 * 20000))
+  console.log(new Date(new Date().toISOString() - 24 * 60 * 60 * 20000))
   return model.Game.findAll({
     limit: 2,
     attributes: ['Id', 'DateCreation'],
@@ -127,11 +127,10 @@ const GetFiveLastGameByUser = (usr) => {
  */
 const CreateANewGame = (UserId, data, imagePath) => {
   console.log("**** CreateANewGame ****", UserId, data, imagePath);
-  const date = new Date();
+  const date = new Date().toISOString();
   const promises = [];
   const gameId = uuidv4();
-  const FictionId = uuidv4()
-
+  const FictionId = uuidv4() 
   const requestNewGame = {
     Id: gameId,
     DateCreation: date,
@@ -140,7 +139,7 @@ const CreateANewGame = (UserId, data, imagePath) => {
   const firstRequest = model.Game.create(requestNewGame);
   promises.push(firstRequest);
   return firstRequest  
-    .then(() => {
+    .then(() => {      
       const requestNewFiction = {
         Id: FictionId, // Nouvelle clé primaire pour Fiction
         Title: data.Title,
@@ -149,8 +148,8 @@ const CreateANewGame = (UserId, data, imagePath) => {
         GameId: gameId,
         DateCreation: date,
         UserId: UserId
-      };
-      const secondRequest = model.Fiction.create(requestNewFiction);      
+      };   
+      const secondRequest = model.Fiction.create(requestNewFiction);  
       promises.push(secondRequest);
       return secondRequest
         .then(() => {
@@ -163,16 +162,34 @@ const CreateANewGame = (UserId, data, imagePath) => {
           promises.push(thirdRequest);
           return thirdRequest
             .then(() => {
-              const sevenRequest = model.Illustration.create(IllustrationRequest)
-              promises.push(secondRequest)
-              return sevenRequest
+              const requestIllustration = {
+                Id: imagePath,
+                DateCreation: date
+              }
+              const requestIllustrationCreate = model.Illustration.create(requestIllustration)
+              promises.push(requestIllustrationCreate)
+              return requestIllustrationCreate
               .then(() => {
-                Promise.all(promises)
+                const requestFictionIllustration = {
+                  Id: uuidv4(),
+                  FictionId: FictionId,
+                  IllustrationId: imagePath
+                }
+                const requestIllFic = model.FictionIllustration.create(requestFictionIllustration)
+                promises.push(requestIllFic)
+                return requestIllFic
+                .then(() => {
+                  Promise.all(promises)
                 })
                 .catch((err) => {
                   console.log(err);
                   return Promise.reject(err);
                 });
+              })
+              .catch((err) => {
+                console.log(err);
+                return Promise.reject(err);
+              });
             })
             .catch((err) => {
               console.log(err);

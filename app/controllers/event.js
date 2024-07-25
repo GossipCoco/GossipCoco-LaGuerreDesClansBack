@@ -4,8 +4,9 @@ const Event = {};
 
 Event.GetAllEvents = (req, res) => {
   console.log("**** GetAllEvents ****");
+  const nav = req.body
   queries
-    .GetAllEvents()
+    .GetAllEvents(nav)
     .then((w) => {
       res.send({ ob: w, res: true }).status(200);
     })

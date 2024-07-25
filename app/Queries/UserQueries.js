@@ -139,11 +139,17 @@ const GetUserByUsername = (username) => {
 const UpdateLastDateConnection = (usr) => {
     console.log("****UpdateLastDateConnection ID User ****", usr)
     const promises = []
-    const date = new Date()
-    const request = model.User.update({ LastConnexion: date }, { where: { Id: usr } })
+    const date = new Date().toISOString(); // Convertir la date en chaîne
+    console.log(date)
+    const request = model.User.update({ LastConnexion: date }, { where: { Id: { [model.Utils.Op.like]: `%${usr}%` } } })
+
+    console.log(request)
     promises.push(request)
     return request
-        .then(w => { return Promise.all(promises) })
+        .then(w => { 
+            console.log("w", w)
+            return Promise.all(promises)
+        })
         .catch(err => { console.log("ERROR UpdateLastDateConnection : ", err) })
 }
 const UpdateUserInformations = (usr, data) => {    

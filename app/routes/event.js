@@ -7,7 +7,7 @@ const uploadFileMiddleware = require('../middleware/uploadImgFiction');  // Assu
 const router = express.Router();
 
 router
-    .get('/', Event.GetAllEvents)
+    .post('/', Event.GetAllEvents)
     .post('/GetPointParId/:id', Event.GetPointParId)
 
 module.exports = router;

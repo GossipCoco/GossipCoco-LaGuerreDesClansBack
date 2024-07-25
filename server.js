@@ -51,7 +51,7 @@ app
   .use(bodyParser.urlencoded({ limit: '50mb', extended: true }))
   .use(bodyParser.json({ limit: '50mb', extended: true }))
   .use(cors())
-  .use('/', Home)
+  .use('/Home', Home)
   .use('/quest', Quest)
   .use('/character', Character)
   .use('/clan', Clan)

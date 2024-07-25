@@ -139,7 +139,7 @@ const GetLastChapterOfAFiction = (FictionId) => {
 }
 const GetFiveLastChapByUser = (usr) => {
   console.log("**** GetFiveLastChapByUser ****", usr);
-  console.log(new Date(new Date() - 24 * 60 * 60 * 20000))
+  console.log(new Date(new Date().toISOString() - 24 * 60 * 60 * 20000))
   return model.Chapter.findAll({
     limit: 2,
     attributes: ['Id', 'Title', 'DateCreation', 'Image'],
@@ -211,7 +211,7 @@ const CreateCommentForAFiction = (id, data) => {
   const comment = model.Comments.create({
     Id: uuidv4(),
     Content: data.Content,
-    DateCreation: new Date(),
+    DateCreation: new Date().toISOString(),
     UserId: data.UserId,
     FictionId: data.FictionId,
     ChapterId: NULL
@@ -229,7 +229,7 @@ const CreateCommentForAFiction = (id, data) => {
 
 const CreateANewChapter = (FictionId, data, imagePath) => {
   console.log("**** CreateANewChapter ****", FictionId, data, imagePath);
-  const date = new Date()
+  const date = new Date().toISOString()
   const promises = []
   const newChapter = {
     Id: data.Id,
