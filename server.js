@@ -34,12 +34,13 @@ const limiter = rateLimit({
 
 const corsOptions = {
   origin: [
+    'http://localhost:8081/',
     "http://192.168.1.14:8081",
     "http://172.20.1.151:8081",
     "http://192.168.1.14:8081",
     'http://10.20.0.22:8081',
     'http://192.168.253.153:8081',
-    'http://localhost:8081/'],
+    ],
   cors: {
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["gossipCoco"],
@@ -51,18 +52,42 @@ app
   .use(bodyParser.urlencoded({ limit: '50mb', extended: true }))
   .use(bodyParser.json({ limit: '50mb', extended: true }))
   .use(cors())
-  .use('/Home', Home)
-  .use('/quest', Quest)
-  .use('/character', Character)
-  .use('/clan', Clan)
-  .use('/grade', Grade)
-  .use('/image', Image)
-  .use('/game', Game)
-  .use('/fiction', Fiction)
-  .use('/api', chatgptRouter)
-  .use('/api', imagegenRouter)
-  .use('/event', Event)
-  .use('/user', User)
+  .use('/Home', Home, (req, res) => {
+    res.json({ message: 'CORS is configured correctly!' });
+  })
+  .use('/quest', Quest, (req, res) => {
+    res.json({ message: 'CORS is configured correctly!' });
+  })
+  .use('/character', Character, (req, res) => {
+    res.json({ message: 'CORS is configured correctly!' });
+  })
+  .use('/clan', Clan, (req, res) => {
+    res.json({ message: 'CORS is configured correctly!' });
+  })
+  .use('/grade', Grade, (req, res) => {
+    res.json({ message: 'CORS is configured correctly!' });
+  })
+  .use('/image', Image, (req, res) => {
+    res.json({ message: 'CORS is configured correctly!' });
+  })
+  .use('/game', Game, (req, res) => {
+    res.json({ message: 'CORS is configured correctly!' });
+  })
+  .use('/fiction', Fiction, (req, res) => {
+    res.json({ message: 'CORS is configured correctly!' });
+  })
+  .use('/api', chatgptRouter, (req, res) => {
+    res.json({ message: 'CORS is configured correctly!' });
+  })
+  .use('/api', imagegenRouter, (req, res) => {
+    res.json({ message: 'CORS is configured correctly!' });
+  })
+  .use('/event', Event, (req, res) => {
+    res.json({ message: 'CORS is configured correctly!' });
+  })
+  .use('/user', User, (req, res) => {
+    res.json({ message: 'CORS is configured correctly!' });
+  })
   .use(helmet())
   .use(limiter)
   .use(function (req, res) {

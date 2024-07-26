@@ -4,8 +4,8 @@ const Quest = require('../controllers/quest');
 const router = express.Router();
 
 router
-    .get('/GetTotalQuest', Quest.GetTotalQuest)
     .post('/', Quest.GetAllQuests)
+    .get('/GetTotalQuest', Quest.GetTotalQuest)
     .get('/:id', Quest.GetQuestById)
 
 
