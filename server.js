@@ -33,17 +33,19 @@ const limiter = rateLimit({
 });
 
 const corsOptions = {
-  origin: [
-    'http://localhost:8081/',
-    "http://192.168.1.14:8081",
-    "http://172.20.1.151:8081",
-    "http://192.168.1.14:8081",
-    'http://10.20.0.22:8081',
-    'http://192.168.253.153:8081',
-    ],
+  origin: '*',
+  // origin: [
+  //   'http://localhost:8081/',
+  //   "http://192.168.1.14:8081",
+  //   "http://172.20.1.151:8081",
+  //   "http://192.168.1.14:8081",
+  //   'http://10.20.0.22:8081',
+  //   'http://192.168.253.153:8081',
+  //   'http://192.168.62.223:8081'
+  //   ],
   cors: {
     methods: ["GET", "POST", "PUT", "DELETE"],
-    allowedHeaders: ["gossipCoco"],
+    allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true
   }
 }
@@ -51,7 +53,7 @@ const corsOptions = {
 app
   .use(bodyParser.urlencoded({ limit: '50mb', extended: true }))
   .use(bodyParser.json({ limit: '50mb', extended: true }))
-  .use(cors())
+  .use(cors(corsOptions))
   .use('/Home', Home, (req, res) => {
     res.json({ message: 'CORS is configured correctly!' });
   })
@@ -95,13 +97,32 @@ app
     res.status(404).send({ result: 'error' });
   })
   const options = {
-    key: fs.readFileSync('key.pem'),
-    cert: fs.readFileSync('cert.pem')
+    key: fs.readFileSync('./key.pem'),
+    cert: fs.readFileSync('./cert.pem'),
+    minVersion: 'TLSv1.2',  // Force l'utilisation de TLS 1.2 et supérieur
+    ciphers: [
+      'ECDHE-RSA-AES256-GCM-SHA384',
+      'ECDHE-RSA-AES128-GCM-SHA256',
+      'AES256-GCM-SHA384',
+      'AES128-GCM-SHA256'
+    ].join(':'),
+    honorCipherOrder: true
   };
+  
 
 //sk-proj-FnVZLiN8rhhkaOaV6wtvT3BlbkFJjHwbQkQlDBTdlHVIlJhW <- API Key ChatGPT
-const serv = http.createServer(app);
-serv.listen(PORT, () => {
+const serv = http.createServer( app);
+serv.listen(PORT, (err) => {
+  if (err) {
+    console.error('Failed to start server:', err);
+  } else {
+    console.log(`Server is running securely on port ${PORT}.`);
+  }
   SocketIOController(serv, corsOptions)
   console.log(`Server is running on port ${PORT}.`);
+});
+app.get('/', (req, res) => {
+  res.send('Hello, HTTPS World!');
+  console.log(`${req.method} request for '${req.url}'`);
+  next();
 });
