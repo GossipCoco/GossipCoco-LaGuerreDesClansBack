@@ -47,6 +47,8 @@ const Background = require('./BackgroundModel')
 const Parallax = require('./ParallaxModel')
 const QuestParallax = require('./QuestParallaxModel')
 const Faq = require('./FaqModel')
+const Message = require('./MessageModel')
+const Gamer = require('./GamerModel')
 
 // Exporter les modèles
 const models = {
@@ -97,6 +99,8 @@ const models = {
   Parallax,
   QuestParallax,
   Faq,
+  Message,
+  Gamer,
   sequelize: connection,
   Sequelize,
   Utils: {

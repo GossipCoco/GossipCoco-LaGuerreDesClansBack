@@ -81,6 +81,8 @@ const GetUserById = (id) => {
     return model.User.findOne({
         where: { Id: id },
         include: [
+            { model: model.Gamer},
+            {model: model.Message },
             { model: model.Points },
             { model: model.Notification },
             {

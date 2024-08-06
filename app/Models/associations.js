@@ -45,6 +45,8 @@ const {
   Parallax,
   QuestParallax,
   Faq,
+  Message,
+  Gamer,
   sequelize: connection,
   Sequelize,
   Utils: {
@@ -73,6 +75,15 @@ Points.belongsTo(User, { foreignKey: 'UserId' });
 
 User.hasMany(Notification, { foreignKey: 'UserId' });
 Notification.belongsTo(User, { foreignKey: 'UserId' });
+
+User.hasMany(Message, { foreignKey: 'SenderId' })
+Message.belongsTo(Message, { foreignKey: 'SenderId' })
+
+User.hasMany(Message, { foreignKey: 'ReceiverId' })
+Message.belongsTo(Message, { foreignKey: 'ReceiverId' })
+
+Gamer.belongsTo(User, {foreignKey: "UserId"})
+User.hasMany(Gamer)
 
 // CHARACTER
 
