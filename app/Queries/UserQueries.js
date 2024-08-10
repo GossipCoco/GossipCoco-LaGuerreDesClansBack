@@ -138,6 +138,12 @@ const GetUserByUsername = (username) => {
         ],
     });
 };
+
+const GetGamerById = (id) => {
+    return model.Gamer.findOne({
+        where: { UserId: id }
+    })
+}
 const UpdateLastDateConnection = (usr) => {
     console.log("****UpdateLastDateConnection ID User ****", usr)
     const promises = []
@@ -161,6 +167,7 @@ module.exports = {
     GetAllUsers,
     GetUserByUsername,
     GetUserById,
+    GetGamerById,
     GetUserByEmail,
     GetUserByLogin,
     UpdateLastDateConnection,
