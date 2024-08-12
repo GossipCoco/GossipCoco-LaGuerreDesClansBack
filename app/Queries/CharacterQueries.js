@@ -92,7 +92,7 @@ const countAllCharacters = () => {
 const GetCharacterByName = (name) => {
   console.log("**** GetCharacterByName ****", name);
   return model.Character.findOne({
-    where: { Id: { [model.Utils.Op.like]: `%${name}%` } },
+    where: { Id: name },
     include: [
       // { model: model.CharacterImage },
       { model: model.Grade },
