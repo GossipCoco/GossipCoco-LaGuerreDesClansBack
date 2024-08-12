@@ -35,13 +35,9 @@ const limiter = rateLimit({
 const corsOptions = {
   origin: '*',
   // origin: [
+  //   '*',
   //   'http://localhost:8081/',
   //   "http://192.168.1.14:8081",
-  //   "http://172.20.1.151:8081",
-  //   "http://192.168.1.14:8081",
-  //   'http://10.20.0.22:8081',
-  //   'http://192.168.253.153:8081',
-  //   'http://192.168.62.223:8081'
   //   ],
   cors: {
     methods: ["GET", "POST", "PUT", "DELETE"],
@@ -121,8 +117,8 @@ serv.listen(PORT, (err) => {
   SocketIOController(serv, corsOptions)
   console.log(`Server is running on port ${PORT}.`);
 });
-app.get('/', (req, res) => {
-  res.send('Hello, HTTPS World!');
-  console.log(`${req.method} request for '${req.url}'`);
-  next();
-});
+// app.get('/', (req, res) => {
+//   res.send('Hello, HTTPS World!');
+//   console.log(`${req.method} request for '${req.url}'`);
+//   next();
+// });

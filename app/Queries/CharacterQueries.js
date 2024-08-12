@@ -30,7 +30,6 @@ const countAllCharacters = () => {
         {
           model: model.Clan,
           include: [{ model: model.Location }],
-          order: [["Id", "ASC"]],
         },
         {
           model: model.Warrior,  
@@ -38,10 +37,9 @@ const countAllCharacters = () => {
             {
               model: model.Clan,
               include: [{ model: model.Location }],
-              order: [["Id", "ASC"]],
+             
             },
           ],
-          order: [["ClanId", "ASC"]],
         },
       ],
     });
