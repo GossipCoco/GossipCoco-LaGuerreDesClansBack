@@ -77,11 +77,13 @@ Points.belongsTo(User, { foreignKey: 'UserId' });
 User.hasMany(Notification, { foreignKey: 'UserId' });
 Notification.belongsTo(User, { foreignKey: 'UserId' });
 
-User.hasMany(Message, { foreignKey: 'SenderId' })
-Message.belongsTo(Message, { foreignKey: 'SenderId' })
+// Correct associations
+User.hasMany(Message, { foreignKey: 'SenderId' }); // Un utilisateur peut envoyer plusieurs messages
+Message.belongsTo(User, { foreignKey: 'SenderId', as: 'Sender' }); // Un message appartient à un utilisateur qui l'a envoyé
 
-User.hasMany(Message, { foreignKey: 'ReceiverId' })
-Message.belongsTo(Message, { foreignKey: 'ReceiverId' })
+User.hasMany(Message, { foreignKey: 'ReceiverId' }); // Un utilisateur peut recevoir plusieurs messages
+Message.belongsTo(User, { foreignKey: 'ReceiverId', as: 'Receiver' }); // Un message appartient à un utilisateur qui le reçoit
+
 
 Gamer.belongsTo(User, {foreignKey: "UserId"})
 User.hasMany(Gamer)
