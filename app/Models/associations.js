@@ -54,6 +54,7 @@ const {
     sequelize,
   },
 } = require('./index');
+const { hasMany } = require('./UserModel');
 
 // Définir les associations ici
 RolePermission.belongsTo(Role, { foreignKey: "Id" });
@@ -84,6 +85,10 @@ Message.belongsTo(Message, { foreignKey: 'ReceiverId' })
 
 Gamer.belongsTo(User, {foreignKey: "UserId"})
 User.hasMany(Gamer)
+
+
+// Gamer.belongsTo(Clan, { foreignKey: 'ClanId' })
+// Clan.hasMany(Game)
 
 // CHARACTER
 

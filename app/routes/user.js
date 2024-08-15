@@ -9,5 +9,6 @@ router
     .get('/GemerById/:id', User.GetGamerById)
     .post('/login', User.Login)
     .post('/updateUserInformation/:id', User.UpdateUserInformations)
+    .post('/GetMessageByReceiverId/:id', User.GetMessageByReceiverId)
 
 module.exports = router;

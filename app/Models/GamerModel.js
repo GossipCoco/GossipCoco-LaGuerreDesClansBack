@@ -37,7 +37,24 @@ const Gamer = connection.define(
         },
         Description: {
             type: DataTypes.TEXT
-        }
+        },
+        Biography: {
+            type: DataTypes.TEXT
+        },
+        ClanId: {
+            type: DataTypes.STRING(255),
+            allowNull: false,
+            references: {
+                model: 'Clan', // Nom de la table de référence
+                key: 'Id' // Nom de la clé de référence
+            }
+        },
+        Status: {
+            type: DataTypes.STRING(255)
+        },
+        Genre: {
+            type: DataTypes.STRING(255)
+        },
     },
     {
         tableName: 'Gamer', // Nom de la table

@@ -139,7 +139,6 @@ const GetLastChapterOfAFiction = (FictionId) => {
 }
 const GetFiveLastChapByUser = (usr) => {
   console.log("**** GetFiveLastChapByUser ****", usr);
-  console.log(new Date(new Date().toISOString() - 24 * 60 * 60 * 20000))
   return model.Chapter.findAll({
     limit: 2,
     attributes: ['Id', 'Title', 'DateCreation', 'Image'],

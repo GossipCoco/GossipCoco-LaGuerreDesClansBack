@@ -1,8 +1,6 @@
 const { v4: uuidv4 } = require('uuid');
 const model = require('../Models');
 require('../Models/associations');
-
-
 const GetAllUsers = () => {
     return model.User.findAll({
         include: [
@@ -81,8 +79,8 @@ const GetUserById = (id) => {
     return model.User.findOne({
         where: { Id: id },
         include: [
-            { model: model.Gamer},
-            {model: model.Message },
+            { model: model.Gamer}, 
+            { model: model.Message },
             { model: model.Points },
             { model: model.Notification },
             {
@@ -113,6 +111,7 @@ const GetUserByUsername = (username) => {
     return model.User.findOne({
         where: { UserName: username },
         include: [
+            { model: model.Gamer}, 
             { model: model.Points },
             { model: model.Notification },
             {
@@ -148,10 +147,7 @@ const UpdateLastDateConnection = (usr) => {
     console.log("****UpdateLastDateConnection ID User ****", usr)
     const promises = []
     const date = new Date().toISOString(); // Convertir la date en chaîne
-    console.log(date)
-    const request = model.User.update({ LastConnexion: date }, { where: { Id: { [model.Utils.Op.like]: `%${usr}%` } } })
-
-    console.log(request)
+   const request = model.User.update({ LastConnexion: date }, { where: { Id: { [model.Utils.Op.like]: `%${usr}%` } } })
     promises.push(request)
     return request
         .then(w => { 
@@ -163,6 +159,16 @@ const UpdateLastDateConnection = (usr) => {
 const UpdateUserInformations = (usr, data) => {    
     console.log("****UpdateLastDateConnection ID User ****", usr, data)
 }
+
+const GetMessageByReceiverId = (id, nav) => {
+    console.log("****UpdateLastDateConnection ID User ****", id, data)
+
+    return model.model.Message.findAll({
+        offset: nav.step * nav.current,
+        limit: nav.step,
+        where: { ReceiverId: id }
+    })
+}
 module.exports = {
     GetAllUsers,
     GetUserByUsername,
@@ -171,5 +177,6 @@ module.exports = {
     GetUserByEmail,
     GetUserByLogin,
     UpdateLastDateConnection,
-    UpdateUserInformations
+    UpdateUserInformations,
+    GetMessageByReceiverId
 };
