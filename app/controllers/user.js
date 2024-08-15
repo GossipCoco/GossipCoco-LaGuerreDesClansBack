@@ -86,6 +86,7 @@ User.UpdateUserInformations = (req, res) => {
     })
 }
 User.GetMessageByReceiverId = (req, res) => {
+  console.log(req.params.id, req.body)
   UserQueries.GetMessageByReceiverId(req.params.id, req.body)
   .then(w => {
     res.send({ ob: w, res: true }).status(200)

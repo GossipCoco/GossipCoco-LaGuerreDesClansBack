@@ -161,9 +161,9 @@ const UpdateUserInformations = (usr, data) => {
 }
 
 const GetMessageByReceiverId = (id, nav) => {
-    console.log("****UpdateLastDateConnection ID User ****", id, data)
+    console.log("****GetMessageByReceiverId ****", id, nav)
 
-    return model.model.Message.findAll({
+    return model.Message.findAll({
         offset: nav.step * nav.current,
         limit: nav.step,
         where: { ReceiverId: id }
