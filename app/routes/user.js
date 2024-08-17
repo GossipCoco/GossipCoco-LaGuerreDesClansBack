@@ -10,5 +10,6 @@ router
     .post('/login', User.Login)
     .post('/updateUserInformation/:id', User.UpdateUserInformations)
     .post('/GetMessageByReceiverId/:id', User.GetMessageByReceiverId)
+    .post('/ChangeStatusMessage/:id', User.ChangeStatusMessage)
 
 module.exports = router;

@@ -33,15 +33,19 @@ const limiter = rateLimit({
 });
 
 const corsOptions = {
-  origin: '*',
-  // origin: [
-  //   '*',
-  //   'http://localhost:8081/',
-  //   "http://192.168.1.14:8081",
-  //   ],
+  // origin: '*',
+  origin: [
+    'http://localhost:8081/',
+    "http://192.168.1.14:8081",
+    "http://172.20.1.151:8081",
+    "http://192.168.1.14:8081",
+    'http://10.20.0.22:8081',
+    'http://192.168.253.153:8081',
+    'http://192.168.62.223:8081'
+  ],
   cors: {
     methods: ["GET", "POST", "PUT", "DELETE"],
-    allowedHeaders: ['Content-Type', 'Authorization'],
+    allowedHeaders: ["gossipCoco"],
     credentials: true
   }
 }
@@ -49,7 +53,7 @@ const corsOptions = {
 app
   .use(bodyParser.urlencoded({ limit: '50mb', extended: true }))
   .use(bodyParser.json({ limit: '50mb', extended: true }))
-  .use(cors(corsOptions))
+  .use(cors())
   .use('/Home', Home, (req, res) => {
     res.json({ message: 'CORS is configured correctly!' });
   })

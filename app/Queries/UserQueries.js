@@ -147,7 +147,7 @@ const UpdateLastDateConnection = (usr) => {
     console.log("****UpdateLastDateConnection ID User ****", usr)
     const promises = []
     const date = new Date().toISOString(); // Convertir la date en chaîne
-   const request = model.User.update({ LastConnexion: date }, { where: { Id: { [model.Utils.Op.like]: `%${usr}%` } } })
+    const request = model.User.update({ LastConnexion: date }, { where: { Id: { [model.Utils.Op.like]: `%${usr}%` } } })
     promises.push(request)
     return request
         .then(w => { 
@@ -165,6 +165,7 @@ const GetMessageByReceiverId = (id, nav) => {
     return model.Message.findAll({
         offset: nav.step * nav.current,
         limit: nav.step,
+        order: [["DateSend", "DESC"]],
         where: { ReceiverId: id },
         include: [{
             model: model.User,
@@ -172,6 +173,18 @@ const GetMessageByReceiverId = (id, nav) => {
             attributes: ['Id', 'UserName', 'LastName', 'FirstName'], // Sélectionnez les champs que vous voulez inclure
         }]
     })
+}
+const ChangeStatusMessage = (id, status) => {    
+    console.log("****GetMessageByReceiverId ****", id, status)
+    const promise = []
+    const request = model.User.update({ Status: status }, { where: { Id: { [model.Utils.Op.like]: `%${id}%` } } })
+    promise.push(request)
+    return request
+    .then(w => { 
+        console.log("w", w)
+        return Promise.all(promise)
+    })
+    .catch(err => { console.log("ERROR UpdateLastDateConnection : ", err) })
 }
 module.exports = {
     GetAllUsers,
@@ -182,5 +195,6 @@ module.exports = {
     GetUserByLogin,
     UpdateLastDateConnection,
     UpdateUserInformations,
-    GetMessageByReceiverId
+    GetMessageByReceiverId,
+    ChangeStatusMessage
 };
